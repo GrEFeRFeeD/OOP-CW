@@ -1,0 +1,16 @@
+spring:
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+    database: postgresql
+
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/coursework
+    username: cw_user
+    password: 15935724860
+    driver-class-name: org.postgresql.Driver
+    initialization-mode: always
+    continue-on-error: true
