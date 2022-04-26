@@ -3,7 +3,6 @@ package oop.CourseWork.model.order;
 import lombok.Data;
 import oop.CourseWork.model.employee.Employee;
 import oop.CourseWork.model.order_product.OrderProduct;
-import org.hibernate.annotations.Tables;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -25,4 +24,9 @@ public class Order {
     // N:M with products
     @OneToMany(mappedBy = "order")
     private Set<OrderProduct> orderBody;
+
+    // 1:N with employee
+    @ManyToOne
+    @JoinColumn
+    private Employee employee;
 }

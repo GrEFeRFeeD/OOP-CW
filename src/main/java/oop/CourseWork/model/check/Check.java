@@ -24,4 +24,9 @@ public class Check {
     // N:M with productBase
     @OneToMany(mappedBy = "check")
     private Set<CheckProductBase> checkBody;
+
+    // 1:N with employee
+    @ManyToOne
+    @JoinColumn
+    private Employee employee;
 }

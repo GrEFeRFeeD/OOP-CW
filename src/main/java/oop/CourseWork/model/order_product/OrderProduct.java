@@ -22,4 +22,22 @@ public class OrderProduct {
     @MapsId("productId")
     @JoinColumn(name = "product_id")
     private Product product;
+
+    @Column(name = "prev_balance")
+    private int prevBalance;
+
+    @Column(name = "prev_order")
+    private int prevOrder;
+
+    @Column(name = "prev_return")
+    private int prevReturn;
+
+    @Column(name = "balance")
+    private int curBalance;
+
+    @Column(name = "order")
+    private int curOrder;
+
+    @Column(name = "return")
+    private int curReturn;
 }

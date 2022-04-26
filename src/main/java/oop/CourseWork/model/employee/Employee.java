@@ -2,6 +2,7 @@ package oop.CourseWork.model.employee;
 
 import lombok.Data;
 import oop.CourseWork.model.check.Check;
+import oop.CourseWork.model.order.Order;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -30,10 +31,26 @@ public class Employee {
     private String position;
     private String department;
 
+    @Column(name = "login")
     private String systemLogin;
+
+    @Column(name = "password")
     private String systemPasswordHash;
 
-    // TODO: 1:N with employee
-    // TODO: 1:N with checks
+    // 1:N (recursive) with employee
+    @ManyToOne
+    @JoinColumn
+    private Employee supervisor;
+
+    @OneToMany(mappedBy = "supervisor")
+    private Set<Employee> subordinates;
+
+    // 1:N with checks
+    @OneToMany(mappedBy = "employee")
+    private Set<Check> checks;
+
     // Todo: 1:N with orders
+    @OneToMany(mappedBy = "employee")
+    private Set<Order> orders;
+
 }
