@@ -19,4 +19,6 @@ UI/UX продукту - [Посилання на Figma](https://www.figma.com/f
 ## Бачення системи
 
 ### ER-діаграма БД у вигляді нотації MS Access
-![schema](https://user-images.githubusercontent.com/66921192/164510387-59fb8707-9ef6-49bb-872f-ac7707249c19.png)
+![image](https://user-images.githubusercontent.com/66921192/165292042-622b91cf-a31f-45e3-96c1-a2f9ea862eef.png)
+
+
