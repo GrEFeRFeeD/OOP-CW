@@ -1,24 +1,26 @@
 # OOP-CW
-### Тема
-ПЗ для для обліку та продажу товару
+### Тема / Theme
+ПЗ для для обліку та продажу товару <br>
+Software for counting and selling products
 
-#### Склад команди
+#### Склад команди / Line-up
 АІ204 Бєлобров А. О.
 
-#### Короткий опис
-ПЗ створює систему, що автоматизує процеси обліку, прийому, замовлення, повернення та продажу товару. Також дозволяє бачити статистику продажів та управляти замовленнями на пряму.
+#### Короткий опис / Short description
+ПЗ створює систему, що автоматизує процеси обліку, прийому, замовлення, повернення та продажу товару. Також дозволяє бачити статистику продажів та управляти замовленнями на пряму.<br>
+Software creates the system which automatizes procesess of counting, recieving, ordering, returning and selling products. Also it allows to see statistics of sales and manage ordering process directly.
 
-#### Використовувані технології
+#### Використовувані технології / Used technologies
 Java, Spring, DB Postgres
 
 <br><br>
-UI/UX продукту - [Посилання на Figma](https://www.figma.com/file/RedTxkPfvIvVLLUdxDhmnj/OOP-CW?node-id=0%3A1) <br>
+UI/UX продукту  - [Посилання на Figma](https://www.figma.com/file/RedTxkPfvIvVLLUdxDhmnj/OOP-CW?node-id=0%3A1) <br>
 Беклог продукту - [Посилання на Google Docs](https://docs.google.com/spreadsheets/d/16yxTzO1KasehXI3JCAOZzH2GR46FFQkO_cL4NIKiV5s/edit?usp=sharing)
 <br><br>
 
-## Бачення системи
+## Бачення системи / Vision of the system
 
-### ER-діаграма БД у вигляді нотації MS Access
+### ER-діаграма БД у вигляді нотації MS Access / ER-diagram of DB in the form of MS Access notation 
 ![image](https://user-images.githubusercontent.com/66921192/165292042-622b91cf-a31f-45e3-96c1-a2f9ea862eef.png)
 
 
