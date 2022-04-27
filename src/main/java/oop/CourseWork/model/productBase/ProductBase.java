@@ -1,5 +1,6 @@
 package oop.CourseWork.model.productBase;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import oop.CourseWork.model.check_productBase.CheckProductBase;
 import oop.CourseWork.model.product.Product;
@@ -27,9 +28,14 @@ public class ProductBase {
 
     // 1:1 with products
     @OneToOne(mappedBy = "productBase")
+    @JsonIgnore
     private Product product;
 
     // M:N with checks
     @OneToMany(mappedBy = "productBase")
     private Set<CheckProductBase> productBaseBody;
+
+    public void addProductBaseVody(CheckProductBase checkProductBase) {
+        productBaseBody.add(checkProductBase);
+    }
 }

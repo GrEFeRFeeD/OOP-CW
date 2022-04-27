@@ -1,5 +1,6 @@
 package oop.CourseWork.model.order_product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import oop.CourseWork.model.order.Order;
 import oop.CourseWork.model.product.Product;
@@ -16,11 +17,13 @@ public class OrderProduct {
     @ManyToOne
     @MapsId("orderId")
     @JoinColumn(name = "order_id")
+    @JsonIgnore
     private Order order;
 
     @ManyToOne
     @MapsId("productId")
     @JoinColumn(name = "product_id")
+    @JsonIgnore
     private Product product;
 
     @Column(name = "prev_balance")

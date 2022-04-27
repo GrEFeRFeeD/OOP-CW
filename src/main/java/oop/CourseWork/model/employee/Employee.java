@@ -1,5 +1,6 @@
 package oop.CourseWork.model.employee;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import oop.CourseWork.model.check.Check;
 import oop.CourseWork.model.order.Order;
@@ -40,6 +41,7 @@ public class Employee {
     // 1:N (recursive) with employee
     @ManyToOne
     @JoinColumn
+    @JsonIgnore
     private Employee supervisor;
 
     @OneToMany(mappedBy = "supervisor")
@@ -52,5 +54,17 @@ public class Employee {
     // Todo: 1:N with orders
     @OneToMany(mappedBy = "employee")
     private Set<Order> orders;
+
+    public void addSubordinate(Employee employee) {
+        subordinates.add(employee);
+    }
+
+    public void addCheck(Check check) {
+        checks.add(check);
+    }
+
+    public void addOrder(Order order) {
+        orders.add(order);
+    }
 
 }

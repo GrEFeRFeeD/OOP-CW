@@ -1,5 +1,6 @@
 package oop.CourseWork.model.order;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import oop.CourseWork.model.employee.Employee;
 import oop.CourseWork.model.order_product.OrderProduct;
@@ -28,5 +29,10 @@ public class Order {
     // 1:N with employee
     @ManyToOne
     @JoinColumn
+    @JsonIgnore
     private Employee employee;
+
+    public void addOrderBody(OrderProduct orderProduct) {
+        orderBody.add(orderProduct);
+    }
 }

@@ -1,5 +1,6 @@
 package oop.CourseWork.model.check;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import oop.CourseWork.model.check_productBase.CheckProductBase;
 import oop.CourseWork.model.employee.Employee;
@@ -16,7 +17,6 @@ public class Check {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "check_id")
-
     private int id;
 
     private Date date;
@@ -28,5 +28,10 @@ public class Check {
     // 1:N with employee
     @ManyToOne
     @JoinColumn
+    @JsonIgnore
     private Employee employee;
+
+    public void addCheckBody(CheckProductBase checkProductBase) {
+        checkBody.add(checkProductBase);
+    }
 }
