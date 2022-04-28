@@ -1,7 +1,9 @@
 package oop.CourseWork.model.check;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import oop.CourseWork.model.check_productBase.CheckProductBase;
 import oop.CourseWork.model.employee.Employee;
 
@@ -12,6 +14,8 @@ import java.util.Set;
 @Entity
 @Table(name = "checks")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Check {
 
     @Id

@@ -1,7 +1,9 @@
 package oop.CourseWork.model.order;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import oop.CourseWork.model.employee.Employee;
 import oop.CourseWork.model.order_product.OrderProduct;
 
@@ -12,6 +14,8 @@ import java.util.Set;
 @Entity
 @Table(name = "orders")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Order {
 
     @Id

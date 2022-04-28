@@ -1,14 +1,19 @@
 package oop.CourseWork.model.order_product;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import oop.CourseWork.model.order.Order;
 import oop.CourseWork.model.product.Product;
 
 import javax.persistence.*;
 
 @Entity
+@Table(name = "order_product")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrderProduct {
 
     @EmbeddedId
@@ -35,12 +40,12 @@ public class OrderProduct {
     @Column(name = "prev_return")
     private int prevReturn;
 
-    @Column(name = "balance")
+    @Column(name = "cur_balance")
     private int curBalance;
 
-    @Column(name = "order")
+    @Column(name = "cur_order")
     private int curOrder;
 
-    @Column(name = "return")
+    @Column(name = "cur_return")
     private int curReturn;
 }

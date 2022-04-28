@@ -1,7 +1,9 @@
 package oop.CourseWork.model.check_productBase;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import oop.CourseWork.model.check.Check;
 import oop.CourseWork.model.productBase.ProductBase;
 
@@ -10,6 +12,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "check_product_base")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class CheckProductBase {
 
     @EmbeddedId
