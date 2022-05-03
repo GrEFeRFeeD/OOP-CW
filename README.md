@@ -7,7 +7,7 @@ Software for counting and selling products
 АІ204 Бєлобров А. О.
 
 #### Короткий опис / Short description
-ПЗ створює систему, що автоматизує процеси обліку, прийому, замовлення, повернення та продажу товару. Також дозволяє бачити статистику продажів та управляти замовленнями на пряму.<br>
+ПЗ створює систему, що автоматизує процеси обліку, прийому, замовлення, повернення та продажу товару. Також дозволяє бачити статистику продажів та управляти замовленнями на пряму.<br><br>
 Software creates the system which automatizes procesess of counting, recieving, ordering, returning and selling products. Also it allows to see statistics of sales and manage ordering process directly.
 
 #### Використовувані технології / Used technologies
