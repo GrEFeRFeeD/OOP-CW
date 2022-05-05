@@ -5,10 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import oop.CourseWork.model.employee.Employee;
+import oop.CourseWork.model.file.File;
 import oop.CourseWork.model.order_product.OrderProduct;
+import oop.CourseWork.model.provider.Provider;
+import oop.CourseWork.model.receiving.Receiving;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -21,21 +24,33 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "order_id")
-    private int id;
+    private Long id;
 
+    @Temporal(value = TemporalType.DATE)
     private Date date;
-    private String provider;
 
-    // N:M with products
-    @OneToMany(mappedBy = "order")
-    private Set<OrderProduct> orderBody;
-
-    // 1:N with employee
     @ManyToOne
-    @JoinColumn
-    @JsonIgnore
+    @JoinColumn(name = "provider_id")
+    private Provider provider;
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
     private Employee employee;
 
+    @OneToMany(mappedBy = "order")
+    @JsonIgnore
+    private Set<File> files;
+
+    @OneToMany(mappedBy = "order")
+    @JsonIgnore
+    private Set<Receiving> receivings;
+
+    @OneToMany(mappedBy = "orderObj")
+    @JsonIgnore
+    private Set<OrderProduct> orderBody;
+
+    public void addFile(File file) { files.add(file); }
+    public void addReceiving(Receiving receiving) { receivings.add(receiving); }
     public void addOrderBody(OrderProduct orderProduct) {
         orderBody.add(orderProduct);
     }

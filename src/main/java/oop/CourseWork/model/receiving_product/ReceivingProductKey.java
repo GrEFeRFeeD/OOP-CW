@@ -1,4 +1,4 @@
-package oop.CourseWork.model.order_product;
+package oop.CourseWork.model.receiving_product;
 
 import lombok.Data;
 
@@ -8,10 +8,10 @@ import java.io.Serializable;
 
 @Embeddable
 @Data
-public class OrderProductKey implements Serializable {
+public class ReceivingProductKey implements Serializable {
 
-    @Column(name = "order_id")
-    private Long orderId;
+    @Column(name = "receiving_id")
+    private Long receivingId;
 
     @Column(name = "product_id")
     private Long productId;

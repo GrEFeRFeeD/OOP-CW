@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import oop.CourseWork.model.check.Check;
 import oop.CourseWork.model.order.Order;
+import oop.CourseWork.model.productLog.ProductLog;
+import oop.CourseWork.model.receiving.Receiving;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -20,7 +22,7 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "employee_id")
-    private int id;
+    private Long id;
 
     @Column(name = "last_name")
     private String lastName;
@@ -34,34 +36,28 @@ public class Employee {
     private String phoneNumber;
 
     private String position;
-    private String department;
 
     @Column(name = "login")
-    private String systemLogin;
+    private String login;
 
     @Column(name = "password")
-    private String systemPasswordHash;
+    private String password;
 
-    // 1:N (recursive) with employee
-    @ManyToOne
-    @JoinColumn
-    @JsonIgnore
-    private Employee supervisor;
-
-    @OneToMany(mappedBy = "supervisor")
-    private Set<Employee> subordinates;
-
-    // 1:N with checks
     @OneToMany(mappedBy = "employee")
+    @JsonIgnore
     private Set<Check> checks;
 
-    // Todo: 1:N with orders
     @OneToMany(mappedBy = "employee")
+    @JsonIgnore
     private Set<Order> orders;
 
-    public void addSubordinate(Employee employee) {
-        subordinates.add(employee);
-    }
+    @OneToMany(mappedBy = "employee")
+    @JsonIgnore
+    private Set<Receiving> receivings;
+
+    @OneToMany(mappedBy = "employee")
+    @JsonIgnore
+    private Set<ProductLog> productLogs;
 
     public void addCheck(Check check) {
         checks.add(check);
@@ -71,4 +67,7 @@ public class Employee {
         orders.add(order);
     }
 
+    public void addReceiving(Receiving receiving) { receivings.add(receiving); }
+
+    public void addProductLog(ProductLog productLog) { productLogs.add(productLog); }
 }

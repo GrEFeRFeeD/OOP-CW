@@ -10,7 +10,7 @@ import oop.CourseWork.model.productBase.ProductBase;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "check_product_base")
+@Table(name = "checks_products")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,13 +22,11 @@ public class CheckProductBase {
     @ManyToOne
     @MapsId("checkId")
     @JoinColumn(name = "check_id")
-    @JsonIgnore
     private Check check;
 
     @ManyToOne
     @MapsId("productBaseId")
-    @JoinColumn(name = "product_base_id")
-    @JsonIgnore
+    @JoinColumn(name = "product_id")
     private ProductBase productBase;
 
     private int count;

@@ -15,8 +15,8 @@ public class ProductBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "product_base_id")
-    private int id;
+    @Column(name = "product_id")
+    private Long id;
 
     private int count;
 
@@ -26,16 +26,16 @@ public class ProductBase {
     @Column(name = "buying_price")
     private double buyingPrice;
 
-    // 1:1 with products
-    @OneToOne(mappedBy = "productBase")
-    @JsonIgnore
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "product_id")
     private Product product;
 
-    // M:N with checks
     @OneToMany(mappedBy = "productBase")
+    @JsonIgnore
     private Set<CheckProductBase> productBaseBody;
 
-    public void addProductBaseVody(CheckProductBase checkProductBase) {
+    public void addProductBaseBody(CheckProductBase checkProductBase) {
         productBaseBody.add(checkProductBase);
     }
 }

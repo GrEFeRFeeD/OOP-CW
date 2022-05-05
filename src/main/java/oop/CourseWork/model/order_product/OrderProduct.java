@@ -10,7 +10,7 @@ import oop.CourseWork.model.product.Product;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "order_product")
+@Table(name = "orders_products")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,30 +22,19 @@ public class OrderProduct {
     @ManyToOne
     @MapsId("orderId")
     @JoinColumn(name = "order_id")
-    @JsonIgnore
-    private Order order;
+    private Order orderObj;
 
     @ManyToOne
     @MapsId("productId")
     @JoinColumn(name = "product_id")
-    @JsonIgnore
-    private Product product;
-
-    @Column(name = "prev_balance")
-    private int prevBalance;
-
-    @Column(name = "prev_order")
-    private int prevOrder;
-
-    @Column(name = "prev_return")
-    private int prevReturn;
+    private Product productObj;
 
     @Column(name = "cur_balance")
-    private int curBalance;
+    private int balance;
 
     @Column(name = "cur_order")
-    private int curOrder;
+    private int order;
 
     @Column(name = "cur_return")
-    private int curReturn;
+    private int count;
 }

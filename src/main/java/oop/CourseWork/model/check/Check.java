@@ -8,7 +8,7 @@ import oop.CourseWork.model.check_productBase.CheckProductBase;
 import oop.CourseWork.model.employee.Employee;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -21,18 +21,19 @@ public class Check {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "check_id")
-    private int id;
+    private Long id;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
-    // N:M with productBase
+    private String status;
+
     @OneToMany(mappedBy = "check")
+    @JsonIgnore
     private Set<CheckProductBase> checkBody;
 
-    // 1:N with employee
     @ManyToOne
-    @JoinColumn
-    @JsonIgnore
+    @JoinColumn(name = "cashier")
     private Employee employee;
 
     public void addCheckBody(CheckProductBase checkProductBase) {
