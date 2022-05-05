@@ -7,7 +7,7 @@ Software for counting and selling products
 АІ204 Бєлобров А. О.
 
 #### Короткий опис / Short description
-ПЗ створює систему, що автоматизує процеси обліку, прийому, замовлення, повернення та продажу товару. Також дозволяє бачити статистику продажів та управляти замовленнями на пряму.<br>
+ПЗ створює систему, що автоматизує процеси обліку, прийому, замовлення, повернення та продажу товару. Також дозволяє бачити статистику продажів та управляти замовленнями на пряму.<br><br>
 Software creates the system which automatizes procesess of counting, recieving, ordering, returning and selling products. Also it allows to see statistics of sales and manage ordering process directly.
 
 #### Використовувані технології / Used technologies
@@ -20,7 +20,8 @@ UI/UX продукту  - [Посилання на Figma](https://www.figma.com/
 
 ## Бачення системи / Vision of the system
 
-### ER-діаграма БД у вигляді нотації MS Access / ER-diagram of DB in the form of MS Access notation 
-![image](https://user-images.githubusercontent.com/66921192/165292042-622b91cf-a31f-45e3-96c1-a2f9ea862eef.png)
-
+### ER-діаграма БД у вигляді нотації MS Access* / ER-diagram of DB in the form of MS Access notation **
+![schema](https://github.com/GrEFeRFeeD/OOP-CW/blob/main/img/schema.png) <br>
+\* ця схема відповідає поточному вигляду проекта, але згодом буде перепрацьована <br>
+** this schema coressponds the current version of project but soon will be revised
 
