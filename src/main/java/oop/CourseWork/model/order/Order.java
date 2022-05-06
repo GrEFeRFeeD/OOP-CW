@@ -12,6 +12,7 @@ import oop.CourseWork.model.receiving.Receiving;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -53,5 +54,23 @@ public class Order {
     public void addReceiving(Receiving receiving) { receivings.add(receiving); }
     public void addOrderBody(OrderProduct orderProduct) {
         orderBody.add(orderProduct);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, date);
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", date=" + date +
+                ", provider=" + provider.getName() +
+                ", employee=" + employee.getFirstName() +
+                ", files=" + files +
+                ", receivings=" + receivings +
+                ", orderBody=" + orderBody +
+                '}';
     }
 }

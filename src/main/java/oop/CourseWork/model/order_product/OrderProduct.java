@@ -36,5 +36,17 @@ public class OrderProduct {
     private int order;
 
     @Column(name = "cur_return")
-    private int count;
+    private int retrn;
+
+    @Override
+    public String toString() {
+        return "OrderProduct{" +
+                "id=" + id +
+                ", orderObj=" + orderObj.getId() +
+                ", productObj=" + productObj.getName() +
+                ", balance=" + balance +
+                ", order=" + order +
+                ", retrn=" + retrn +
+                '}';
+    }
 }

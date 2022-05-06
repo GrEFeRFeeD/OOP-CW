@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import oop.CourseWork.model.order.Order;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -34,5 +35,10 @@ public class Provider {
 
     public void addOrder(Order order) {
         orders.add(order);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, email, phoneNumber);
     }
 }

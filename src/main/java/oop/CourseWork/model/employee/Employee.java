@@ -10,6 +10,7 @@ import oop.CourseWork.model.productLog.ProductLog;
 import oop.CourseWork.model.receiving.Receiving;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -37,7 +38,7 @@ public class Employee {
 
     private String position;
 
-    @Column(name = "login")
+    @Column(name = "login", unique = true)
     private String login;
 
     @Column(name = "password")
@@ -70,4 +71,9 @@ public class Employee {
     public void addReceiving(Receiving receiving) { receivings.add(receiving); }
 
     public void addProductLog(ProductLog productLog) { productLogs.add(productLog); }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, lastName, firstName, patronymic, phoneNumber, position, login, password);
+    }
 }

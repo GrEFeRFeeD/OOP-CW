@@ -11,6 +11,7 @@ import oop.CourseWork.model.productLog.ProductLog;
 import oop.CourseWork.model.receiving_product.ReceivingProduct;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -26,6 +27,7 @@ public class Product {
     private Long id;
 
     private String name;
+    private double price;
 
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
@@ -49,4 +51,9 @@ public class Product {
     }
     public void addProductLog(ProductLog productLog) { productLogs.add(productLog); }
     public void addReceivingProduct(ReceivingProduct receivingProduct) { receivingProducts.add(receivingProduct); }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, price);
+    }
 }
