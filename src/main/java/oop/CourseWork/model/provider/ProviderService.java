@@ -15,6 +15,7 @@ public class ProviderService {
         this.providerRepository = providerRepository;
     }
 
+    public Provider getProviderById(Long id) { return providerRepository.getById(id); }
     public List<Provider> getAllProviders() {
         return providerRepository.findAll();
     }

@@ -11,6 +11,7 @@ import oop.CourseWork.model.productLog.ProductLog;
 import oop.CourseWork.model.receiving_product.ReceivingProduct;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -18,7 +19,6 @@ import java.util.Set;
 @Table(name = "products")
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class Product {
 
     @Id
@@ -45,6 +45,12 @@ public class Product {
     @OneToMany(mappedBy = "product")
     @JsonIgnore
     private Set<ReceivingProduct> receivingProducts;
+
+    public Product() {
+        this.productBody = new HashSet<>();
+        this.productLogs = new HashSet<>();
+        this.receivingProducts = new HashSet<>();
+    }
 
     public void addProductBody(OrderProduct orderProduct) {
         productBody.add(orderProduct);

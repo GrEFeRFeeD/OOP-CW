@@ -35,10 +35,10 @@ public class DataLoader implements ApplicationRunner {
     private EmployeeRepository employeeRepository;
 
     public void run(ApplicationArguments args) {
-        Product pt1 = new Product(null, "Кефир", 45.32, null, new HashSet<>(), new HashSet<>(), new HashSet<>());
+        Product pt1 = new Product(null, "Кефір", 45.32, null, new HashSet<>(), new HashSet<>(), new HashSet<>());
         Product pt2 = new Product(null, "Молоко", 23.41, null, new HashSet<>(), new HashSet<>(), new HashSet<>());
         Product pt3 = new Product(null, "Сметана", 38.90, null, new HashSet<>(), new HashSet<>(), new HashSet<>());
-        Product pt4 = new Product(null, "Плавленный сыр", 12.10,  null, new HashSet<>(), new HashSet<>(), new HashSet<>());
+        Product pt4 = new Product(null, "Плавлений сир", 12.10,  null, new HashSet<>(), new HashSet<>(), new HashSet<>());
         Product pt5 = new Product(null, "Ряженка", 28.74, null, new HashSet<>(), new HashSet<>(), new HashSet<>());
 
         Employee e1 = new Employee(null, "Пригорченко", "Василь", "Миколайович", "+380964444444", "Менеджер", "manag1", "bebebe", new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>());

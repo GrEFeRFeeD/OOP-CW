@@ -8,10 +8,12 @@ import oop.CourseWork.model.employee.Employee;
 import oop.CourseWork.model.file.File;
 import oop.CourseWork.model.order_product.OrderProduct;
 import oop.CourseWork.model.provider.Provider;
+import oop.CourseWork.model.provider.ProviderService;
 import oop.CourseWork.model.receiving.Receiving;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -19,7 +21,6 @@ import java.util.Set;
 @Table(name = "orders")
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class Order {
 
     @Id
@@ -50,6 +51,22 @@ public class Order {
     @JsonIgnore
     private Set<OrderProduct> orderBody;
 
+    public Order() {
+        this.files = new HashSet<>();
+        this.receivings = new HashSet<>();
+        this.orderBody = new HashSet<>();
+    }
+
+    public Order(Long id, Date date, Provider provider, Employee employee) {
+        this.id = id;
+        this.date = date;
+        this.provider = provider;
+        this.employee = employee;
+        this.files = new HashSet<>();
+        this.receivings = new HashSet<>();
+        this.orderBody = new HashSet<>();
+    }
+
     public void addFile(File file) { files.add(file); }
     public void addReceiving(Receiving receiving) { receivings.add(receiving); }
     public void addOrderBody(OrderProduct orderProduct) {
@@ -67,7 +84,7 @@ public class Order {
                 "id=" + id +
                 ", date=" + date +
                 ", provider=" + provider.getName() +
-                ", employee=" + employee.getFirstName() +
+               //TODO: uncomment ", employee=" + employee.getFirstName() +
                 ", files=" + files +
                 ", receivings=" + receivings +
                 ", orderBody=" + orderBody +

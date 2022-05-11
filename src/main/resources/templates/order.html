@@ -1,6 +1,6 @@
-<!doctype html>
-        <html lang="en">
-        <head>
+﻿<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,14 +24,16 @@
 <nav>
     <div class = "row" id="navUpperDiv">
         <div class = "col" align="center">
-            <select class="form-select form-select-lg" name="providers">
-                <option value = "1">Усі постачальники</option>
+            <select class="form-select form-select-lg" name="providers" onchange="window.open('/orders?provider=' + value, '_self');">
+                <option th:each="pr : ${providers}" th:value="${pr.id}" th:selected="${provider_id==pr.id}"><span th:text="${pr.name}"/></option>
             </select>
         </div>
 
         <div class = "col" align="center">
-            <select class="form-select form-select-lg" name="providers">
-                <option value = "1">Заказ №</option>
+            <select class="form-select form-select-lg" name="orders" onchange="window.open('/orders/' + value, '_self');">
+                <option th:value="${order_id}">Оберіть замовлення</option>
+                <option th:value="'new_order?provider=' + ${provider_id}">Нове замовлення...</option>
+                <option th:each="ordr : ${orders}" th:value="${ordr.id}" th:selected="${order_id==ordr.id}"><span th:text="'Замовлення №' + ${ordr.id}"/></option>
             </select>
         </div>
     </div>
@@ -55,7 +57,7 @@
         <div class = "col" align="center">
             <div class="row">
                 <div class="col btn-group" id="test" >
-                    <button type="button" class="btn btn-info">Розрахувати</button>
+                    <button type="button" class="btn btn-info">Розрахувати залишки</button>
                 </div>
                 <div class="col">
                     <select class="form-select form-select-lg" name="providers">
@@ -83,23 +85,23 @@
                     <td>Сума</td>
                 </tr>
                 </thead>
-                <tr>
-                    <td>1</td>
-                    <td>2</td>
-                    <td>3</td>
-                    <td>4</td>
-                    <td>5</td>
-                    <td>6</td>
+                <tr th:each="order_product : ${order_products}">
+                    <td><span th:text="${order_product.productObj.name}"></td>
+                    <td><span th:text="${order_product.balance}"/></td>
+                    <td><span th:text="${order_product.order}"/></td>
+                    <td><span th:text="${order_product.retrn}"/></td>
+                    <td><span th:text="${order_product.productObj.price}"></td>
+                    <td><span th:text="${#numbers.formatDecimal((order_product.order * order_product.productObj.price), 1, 2, 'POINT')}"></td>
                 </tr>
             </table>
         </div>
 
         <div class="col-3">
             <div class="d-grid gap-4 col-10 mx-auto">
-                <button type="button" class="btn btn-success">Зберегти зміни</button>
-                <button type="button" class="btn btn-warning">Скасувати зміни</button>
-                <button type="button" class="btn btn-danger">Видалити заказ</button>
-                <button type="button" class="btn btn-secondary">Назад</button>
+                <a type="button" class="btn btn-success">Зберегти зміни</a>
+                <a type="button" class="btn btn-warning">Скасувати зміни</a>
+                <a type="button" class="btn btn-danger">Видалити заказ</a>
+                <a type="button" class="btn btn-secondary" href="/orders/all" >Назад</a>
             </div>
         </div>
     </div>
