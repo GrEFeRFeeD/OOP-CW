@@ -36,8 +36,10 @@ public class OrderController {
         model.addAttribute("orders", orderList);
         model.addAttribute("providers", providerService.getAllProviders());
         model.addAttribute("orderSums", orderService.getAllOrderSums());
-        model.addAttribute("min_date", new Date((orderList.stream().map(o -> o.getDate().getTime()).min(Comparator.comparingLong(Long::longValue))).get()));
-        model.addAttribute("max_date", new Date((orderList.stream().map(o -> o.getDate().getTime()).max(Comparator.comparingLong(Long::longValue))).get()));
+        if (!orderList.isEmpty()) {
+            model.addAttribute("min_date", new Date((orderList.stream().map(o -> o.getDate().getTime()).min(Comparator.comparingLong(Long::longValue))).get()));
+            model.addAttribute("max_date", new Date((orderList.stream().map(o -> o.getDate().getTime()).max(Comparator.comparingLong(Long::longValue))).get()));
+        }
         return "orderlist";
     }
 
@@ -82,5 +84,11 @@ public class OrderController {
         List<Order> orders = orderService.getOrdersByProvider(providerId);
         model.addAttribute("orders", orders);
         return "order";
+    }
+
+    @GetMapping("/orders/{id}/delete")
+    public String deleteOrder(@PathVariable(name = "id") Long orderId) {
+        orderService.deleteOrder(orderId);
+        return "redirect:/orders/all";
     }
 }

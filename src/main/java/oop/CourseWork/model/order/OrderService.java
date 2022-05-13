@@ -11,10 +11,7 @@ import oop.CourseWork.model.provider.ProviderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class OrderService {
@@ -76,5 +73,15 @@ public class OrderService {
 
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
+    }
+
+    public void deleteOrder(Long orderId) {
+        Optional<Order> orderOptional = orderRepository.findById(orderId);
+        if (orderOptional.isEmpty()) return;
+        Order order = orderOptional.get();
+        System.out.println("ORDER_BODY = " + order.getOrderBody());
+        List<OrderProduct> orderProducts = orderProductRepository.findByOrderObj(order);
+        orderProductRepository.deleteAll(orderProducts);
+        orderRepository.delete(order);
     }
 }

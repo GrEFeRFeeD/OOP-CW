@@ -102,7 +102,7 @@
             <div class="d-grid gap-4 col-10 mx-auto">
                 <a type="button" class="btn btn-success">Зберегти зміни</a>
                 <a type="button" class="btn btn-warning">Скасувати зміни</a>
-                <a type="button" class="btn btn-danger">Видалити заказ</a>
+                <a type="button" class="btn btn-danger" th:onclick="if (confirm('Ви дійсно бажаєте видалити замовлення №' + [[${order_id}]] + '?')) window.open('/orders/' + [[${order_id}]] + '/delete', '_self');">Видалити замовлення</a>
                 <a type="button" class="btn btn-secondary" href="/orders/all" >Назад</a>
             </div>
         </div>
