@@ -11,7 +11,7 @@ Software for counting and selling products
 Software creates the system which automatizes procesess of counting, recieving, ordering, returning and selling products. Also it allows to see statistics of sales and manage ordering process directly.
 
 #### Використовувані технології / Used technologies
-Java, Spring, DB Postgres
+Java, Spring, Hibernate, PostgreSQL, Bootstrap, Thymeleaf
 
 <br><br>
 UI/UX продукту  - [Посилання на Figma](https://www.figma.com/file/RedTxkPfvIvVLLUdxDhmnj/OOP-CW?node-id=0%3A1) <br>
