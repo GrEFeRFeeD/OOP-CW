@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class OrderService {
@@ -44,12 +46,23 @@ public class OrderService {
 
         for(Product p : productRepository.findAll()) {
             OrderProduct orderProduct = new OrderProduct(new OrderProductKey(), savedOrder, p, 0, 0, 0);
-            //savedOrder.addOrderBody(orderProduct);
-            //p.addProductBody(orderProduct);
             orderProductRepository.save(orderProduct);
         }
 
         return savedOrder;
+    }
+
+    public Map<Long, Map<String, Double>> getAllOrderSums() {
+        List<Order> orders = orderRepository.findAll();
+        Map<Long, Map<String, Double>> allOrderSums = new HashMap<>();
+        for (Order o : orders) {
+            List<OrderProduct> orderProducts = orderProductRepository.findByOrderObj(o);
+            Map<String, Double> currentOrderSums = new HashMap<>();
+            currentOrderSums.put("products", orderProducts.stream().mapToDouble(value -> value.getOrder() * value.getProductObj().getPrice()).sum());
+            currentOrderSums.put("returns", orderProducts.stream().mapToDouble(value -> value.getRetrn() * value.getProductObj().getPrice()).sum());
+            allOrderSums.put(o.getId(), currentOrderSums);
+        }
+        return allOrderSums;
     }
 
     public Order getOrderById(Long id) {

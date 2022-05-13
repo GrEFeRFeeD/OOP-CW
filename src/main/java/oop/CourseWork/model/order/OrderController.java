@@ -32,17 +32,12 @@ public class OrderController {
     @GetMapping("/orders/all")
     public String getOrderList(Model model) {
 
-        // Show exist orders
         List<Order> orderList = orderService.getAllOrders();
         model.addAttribute("orders", orderList);
-
-        // Add providers to upper select, new order button
-        List<Provider> providerList = providerService.getAllProviders();
-        model.addAttribute("providers", providerList);
-
+        model.addAttribute("providers", providerService.getAllProviders());
+        model.addAttribute("orderSums", orderService.getAllOrderSums());
         model.addAttribute("min_date", new Date((orderList.stream().map(o -> o.getDate().getTime()).min(Comparator.comparingLong(Long::longValue))).get()));
         model.addAttribute("max_date", new Date((orderList.stream().map(o -> o.getDate().getTime()).max(Comparator.comparingLong(Long::longValue))).get()));
-
         return "orderlist";
     }
 
