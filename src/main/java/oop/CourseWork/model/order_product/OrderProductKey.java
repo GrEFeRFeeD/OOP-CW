@@ -1,6 +1,8 @@
 package oop.CourseWork.model.order_product;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -8,6 +10,8 @@ import java.io.Serializable;
 
 @Embeddable
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderProductKey implements Serializable {
 
     @Column(name = "order_id")

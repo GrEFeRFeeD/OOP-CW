@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>Order list</title>
-
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <style>
         div#navUpperDiv, div#navBottomDiv{
             margin: 20px;
@@ -17,7 +17,38 @@
             margin: 20px;
         }
 
+        .table{
+            vertical-align: middle;
+        }
+
+        .changed{
+            font-weight: bold;
+        }
     </style>
+
+    <script>
+        $(document).ready(function() {
+          $("input"). change(function(){
+            $(this).addClass('changed');
+            document.getElementById('submit-button').classList.remove('disabled');
+            document.getElementById('decline-button').classList.remove('disabled');
+            countSum();
+          });
+        });
+
+            function countSum() {
+      var prices = document.getElementsByClassName('price-span');
+      var orders = document.getElementsByClassName('ord-input');
+      var returns = document.getElementsByClassName('ret-input');
+      var orderSum = 0, returnSum = 0;
+      for (var i = 0; i < prices.length; i++) {
+        orderSum += prices[i].textContent*parseInt(orders[i].value);
+        returnSum += prices[i].textContent*parseInt(returns[i].value);
+      }
+      document.getElementById('order-sum').innerHTML = Number(orderSum).toFixed(2);
+      document.getElementById('return-sum').innerHTML = Number(returnSum).toFixed(2);
+    }
+    </script>
 
 </head>
 </html>
@@ -47,11 +78,11 @@
             <div class="row" align="center">
                 <div class = "col" align="center">
                     <p>Попереднє замовлення</p>
-                    <input class="form-control" type="date" name="lowerDate">
+                    <input disabled class="form-control" type="date" th:value="${#dates.format(prev_date, 'yyyy-MM-dd')}">
                 </div>
                 <div class = "col" align="center">
                     <p>Поточне замовлення</p>
-                    <input class="form-control" type="date" name="lowerDate">
+                    <input disabled class="form-control" type="date" th:value="${#dates.format(cur_date, 'yyyy-MM-dd')}">
                 </div>
             </div>
         </div>
@@ -59,10 +90,10 @@
         <div class = "col" align="center">
             <div class="row">
                 <div class="col btn-group" id="test" >
-                    <button type="button" class="btn btn-info">Розрахувати залишки</button>
+                    <button disabled type="button" class="btn btn-info">Розрахувати залишки</button>
                 </div>
                 <div class="col">
-                    <select class="form-select form-select-lg" name="providers">
+                    <select disabled class="form-select form-select-lg" name="providers">
                         <option value = "1">Усі товари</option>
                     </select>
                 </div>
@@ -74,39 +105,53 @@
 </nav>
 
 <main>
+    <form method="post">
     <div class="row">
         <div class="col-9">
             <table class="table">
                 <thead>
-                <tr>
-                    <td>Найменування товару</td>
-                    <td>Залишок</td>
-                    <td>Замовлення</td>
-                    <td>Повернення</td>
-                    <td>Ціна</td>
-                    <td>Сума</td>
-                </tr>
+                    <tr>
+                        <td>Найменування товару</td>
+                        <td>Залишок</td>
+                        <td>Замовлення</td>
+                        <td>Повернення</td>
+                        <td>Ціна</td>
+                        <td>Сума</td>
+                    </tr>
                 </thead>
+                <tbody>
                 <tr th:each="order_product : ${order_products}">
-                    <td><span th:text="${order_product.productObj.name}"></td>
-                    <td><span th:text="${order_product.balance}"/></td>
-                    <td><span th:text="${order_product.order}"/></td>
-                    <td><span th:text="${order_product.retrn}"/></td>
-                    <td><span th:text="${order_product.productObj.price}"></td>
+                    <input type="hidden" name="productId[]" th:value="${order_product.id.productId}">
+                    <td><span th:text="${order_product.productObj.name}" /></td>
+                    <td><input type="number" name="balance[]" th:value="${order_product.balance}" class="form-control input"></td>
+                    <td><input type="number" name="order[]" th:value="${order_product.order}" class="form-control input ord-input"></td>
+                    <td><input type="number" name="return[]" th:value="${order_product.retrn}" class="form-control input ret-input"></td>
+                    <td><span th:text="${order_product.productObj.price}" class="price-span"/></td>
                     <td><span th:text="${#numbers.formatDecimal((order_product.order * order_product.productObj.price), 1, 2, 'POINT')}"></td>
                 </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">Усього:</td>
+                        <td>Замовлення: <span id="order-sum" /></td>
+                        <td>Повернення: <span id="return-sum"/></td>
+                        <td></td><td></td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
+        <script>countSum();</script>
 
         <div class="col-3">
             <div class="d-grid gap-4 col-10 mx-auto">
-                <a type="button" class="btn btn-success">Зберегти зміни</a>
-                <a type="button" class="btn btn-warning">Скасувати зміни</a>
+                <input type="submit" value="Зберегти зміни" class="btn btn-success disabled" id="submit-button">
+                <a type="button" aria-disabled="true" class="btn btn-warning disabled" th:href="'/orders/' + ${order_id}" id="decline-button">Скасувати зміни</a>
                 <a type="button" class="btn btn-danger" th:onclick="if (confirm('Ви дійсно бажаєте видалити замовлення №' + [[${order_id}]] + '?')) window.open('/orders/' + [[${order_id}]] + '/delete', '_self');">Видалити замовлення</a>
                 <a type="button" class="btn btn-secondary" href="/orders/all" >Назад</a>
             </div>
         </div>
     </div>
+    </form>
 </main>
 
 

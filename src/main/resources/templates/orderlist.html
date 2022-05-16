@@ -51,6 +51,7 @@
         .btn-info{
             margin: 2px;
         }
+
     </style>
 
 </head>
@@ -59,7 +60,7 @@
 
 <nav>
     <div class = "row" id="upperDiv">
-        <div class = "col">
+        <div class = "col" id="period-filter">
             <div class = "row">
                 <p align="center">
                     <label class="form-label">За періодом</label>
@@ -67,16 +68,16 @@
             </div>
             <div class = "row">
                 <div class = "col" align="center">
-                    <input class="form-control" type="date" name="lowerDate" th:value="${#dates.format(min_date, 'yyyy-MM-dd')}">
+                    <input disabled class="form-control" type="date" name="lowerDate" th:value="${#dates.format(min_date, 'yyyy-MM-dd')}">
                 </div>
                 <div class = "col" align="center">
-                    <input class="form-control" type="date" name="upperDate" th:value="${#dates.format(max_date, 'yyyy-MM-dd')}">
+                    <input disabled class="form-control" type="date" name="upperDate" th:value="${#dates.format(max_date, 'yyyy-MM-dd')}">
                 </div>
             </div>
         </div>
 
         <div class = "col" align="center">
-            <select class="form-select form-select-lg" name="providers">
+            <select disabled class="form-select form-select-lg" name="providers">
                 <option value="all">Усі постачальники</option>
                 <option th:each="provider : ${providers}" th:value = "${provider.id}"><span th:text="${provider.name}"/></option>
             </select>

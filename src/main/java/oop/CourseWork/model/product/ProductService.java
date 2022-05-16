@@ -13,4 +13,5 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
+    public Product getProductById(Long id) { return productRepository.getById(id); }
 }

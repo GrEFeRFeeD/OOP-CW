@@ -20,6 +20,10 @@ public class OrderProductService {
         this.orderRepository = orderRepository;
     }
 
+    public OrderProduct getOrderProductById(Long orderId, Long productId) {
+        return orderProductRepository.getById(new OrderProductKey(orderId, productId));
+    }
+
     public List<OrderProduct> getOrderProductsByOrder(Long orderId) {
         Optional<Order> order = orderRepository.findById(orderId);
         return order.isEmpty()?null:orderProductRepository.findByOrderObj(order.get());
@@ -27,4 +31,9 @@ public class OrderProductService {
     public List<OrderProduct> getAllOrderProducts() {
         return orderProductRepository.findAll();
     }
+
+    public void addOrderProduct(OrderProduct orderProduct) {
+        orderProductRepository.save(orderProduct);
+    }
+
 }
