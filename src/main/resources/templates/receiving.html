@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Receiver</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
+  <style>
+    .start-col{
+      margin: 20px;
+    }
+
+    .inner-row{
+      margin-bottom: 10px;
+    }
+
+  </style>
+
+  <script>
+
+  $(document).keyup(function(event) {
+    if ($("#product-input").is(":focus") && event.key == "Enter") {
+        inputActivated();
+    }
+  });
+
+    function inputActivated() {
+      let inputValue = document.getElementById('product-input').value;
+      let receivingId = [[${receivingId}]];
+      window.open('/receivings/' + receivingId + '/' + inputValue, '_self');
+    }
+  </script>
+</head>
+<body>
+
+  <div class="row foundational-row" style="margin: 0px;">
+    <div class="col start-col">
+      <div class="row inner-row">
+        <select class="form-select" onchange="window.open('/receivings/' + value, '_self');">
+          <option th:value="${receivingId}">Оберіть накладну прийняття</option>
+          <option th:each="receiving : ${receivings}" th:value="${receiving.id}" th:selected="${receivingId==receiving.id}"><span th:text="'Накладна №' + ${receiving.id}"/></option>
+        </select>
+      </div>
+      <div class="row inner-row">
+        <button disabled class="btn btn-info">Додати накладну постачальника</button>
+      </div>
+      <div class="row inner-row">
+        <input id="product-input" type="number" class="form-control" onchange="inputActivated();">
+      </div>
+      <div class="row inner-row" style="overflow:auto; min-height: 485px; max-height: 485px">
+        <table class="table" style="border-collapse: collapse;">
+          <thead style="position: sticky; top: 0; background: #909090; ">
+          <tr>
+            <td>#</td>
+            <td>Наіменування</td>
+            <td>Кількість</td>
+            <td>Ціна</td>
+          </tr>
+          </thead>
+          <tbody></tbody>
+          <tfoot style="position: sticky; bottom: 0;  background: #909090; ">
+            <tr>
+              <td colspan="3">Усього:</td>
+              <td>1000</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div class="row inner-row">
+        <button class="btn btn-success btn-lg">Save receiving button</button>
+      </div>
+    </div>
+
+    <div class="col start-col">
+      <div class="row inner-row">
+        <select class="form-select" onchange="window.open('/receivings?provider=' + value, '_self');">
+          <option th:value="${providerId}">Оберіть постачальника</option>
+          <option th:each="provider : ${providers}" th:value="${provider.id}" th:selected="${providerId==provider.id}"><span th:text="${provider.name}"/></option>
+        </select>
+      </div>
+      <div class="row inner-row">
+        <select class="form-select" th:onchange="window.open('/receivings?provider=' + [[${providerId}]] + '&order=' + value, '_self');">
+          <option th:value="${orderId}">Оберіть замовлення</option>
+          <option th:each="order : ${orders}" th:value="${order.id}" th:selected="${orderId==order.id}"><span th:text="'Замовлення №' + ${order.id}"/></option>
+        </select>
+      </div>
+      <div class="row inner-row">
+        <button class="btn btn-primary" th:disabled="${orderId == null}" th:onclick="window.open('/receivings/new_receiving?order=' + [[${orderId}]], '_self');" >Створити нову накладну прийняття за обраним замовленням...</button>
+      </div>
+      <div class="row inner-row" style="overflow:auto; min-height: 250px; max-height: 250px">
+        <table class="table" style="border-collapse: collapse;">
+          <thead style="position: sticky; top: 0; background: #909090; ">
+          <tr>
+            <td>#</td>
+            <td>Наіменування</td>
+            <td>Кількість</td>
+            <td>Ціна</td>
+          </tr>
+          </thead>
+          <tbody>
+            <tr th:each="op : ${orderProducts}">
+              <td><span th:text="${op.productObj.id}"/></td>
+              <td><span th:text="${op.productObj.name}"/></td>
+              <td><span th:text="${op.order}"/></td>
+              <td><span th:text="${op.productObj.price}"/></td>
+            </tr>
+          </tbody>
+          <tfoot style="position: sticky; bottom: 0;  background: #909090; ">
+            <tr>
+              <td colspan="3">Усього:</td>
+              <td>1000</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div class="row inner-row">
+        <span align="center">Різниця:</span>
+      </div>
+      <div class="row inner-row" style="overflow:auto; min-height: 250px; max-height: 250px">
+        <table class="table" style="border-collapse: collapse;">
+          <thead style="position: sticky; top: 0; background: #909090; ">
+            <tr>
+              <td>#</td>
+              <td>Наіменування</td>
+              <td>Кількість</td>
+              <td>Ціна</td>
+            </tr>
+          </thead>
+          <tbody></tbody>
+          <tfoot style="position: sticky; bottom: 0;  background: #909090; ">
+            <tr>
+              <td colspan="3">Усього:</td>
+              <td>1000</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

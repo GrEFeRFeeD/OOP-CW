@@ -44,9 +44,7 @@ public class OrderController {
     }
 
     @GetMapping("/orders/new_order")
-    public String getNewOrder(@RequestParam(value = "provider") Long providerId,
-                              //@RequestParam(value = "employee") Long employeeId,
-                              Model model) {
+    public String getNewOrder(@RequestParam(value = "provider") Long providerId, Model model) {
 
         Provider provider = providerService.getProviderById(providerId);
         //TODO: employee sign (Spring Security)
@@ -68,9 +66,10 @@ public class OrderController {
         List<Order> orders = orderService.getOrdersByProvider(order.getProvider().getId());
         model.addAttribute("orders", orders);
 
-        orders.remove(order);
-        if (!orders.isEmpty()) {
-            model.addAttribute("prev_date", new Date((orders.stream().map(o -> o.getDate().getTime()).max(Comparator.comparingLong(Long::longValue))).get()));
+        List<Order> tempOrders = orderService.getOrdersByProvider(order.getProvider().getId());
+        tempOrders.remove(order);
+        if (!tempOrders.isEmpty()) {
+            model.addAttribute("prev_date", new Date((tempOrders.stream().map(o -> o.getDate().getTime()).max(Comparator.comparingLong(Long::longValue))).get()));
         }
 
         List<Provider> providers = providerService.getAllProviders();

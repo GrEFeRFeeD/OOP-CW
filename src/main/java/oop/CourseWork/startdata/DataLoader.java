@@ -35,6 +35,7 @@ public class DataLoader implements ApplicationRunner {
     private EmployeeRepository employeeRepository;
 
     public void run(ApplicationArguments args) {
+        System.out.println(new Date(System.currentTimeMillis()) + " oop.CourseWork.startdata.DataLoader: Starting loading the start data...");
         Product pt1 = new Product(null, "Кефір", 45.32, null, new HashSet<>(), new HashSet<>(), new HashSet<>());
         Product pt2 = new Product(null, "Молоко", 23.41, null, new HashSet<>(), new HashSet<>(), new HashSet<>());
         Product pt3 = new Product(null, "Сметана", 38.90, null, new HashSet<>(), new HashSet<>(), new HashSet<>());
@@ -98,5 +99,7 @@ public class DataLoader implements ApplicationRunner {
         orderProductRepository.save(op14);
         orderProductRepository.save(op21);
         orderProductRepository.save(op22);
+
+        System.out.println(new Date(System.currentTimeMillis()) + " oop.CourseWork.startdata.DataLoader: Start data successfully loaded.");
     }
 }
