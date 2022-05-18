@@ -4,8 +4,13 @@ import oop.CourseWork.model.order.Order;
 import oop.CourseWork.model.order.OrderService;
 import oop.CourseWork.model.order_product.OrderProduct;
 import oop.CourseWork.model.order_product.OrderProductService;
+import oop.CourseWork.model.product.Product;
+import oop.CourseWork.model.product.ProductService;
 import oop.CourseWork.model.provider.Provider;
 import oop.CourseWork.model.provider.ProviderService;
+import oop.CourseWork.model.receiving_product.ReceivingProduct;
+import oop.CourseWork.model.receiving_product.ReceivingProductKey;
+import oop.CourseWork.model.receiving_product.ReceivingProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,9 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class ReceivingController {
@@ -24,13 +27,17 @@ public class ReceivingController {
     private ProviderService providerService;
     private OrderService orderService;
     private OrderProductService orderProductService;
+    private ProductService productService;
+    private ReceivingProductService receivingProductService;
 
     @Autowired
-    public ReceivingController(ReceivingService receivingService, ProviderService providerService, OrderService orderService, OrderProductService orderProductService) {
+    public ReceivingController(ReceivingService receivingService, ProviderService providerService, OrderService orderService, OrderProductService orderProductService, ProductService productService, ReceivingProductService receivingProductService) {
         this.receivingService = receivingService;
         this.providerService = providerService;
         this.orderService = orderService;
         this.orderProductService = orderProductService;
+        this.productService = productService;
+        this.receivingProductService = receivingProductService;
     }
 
     @GetMapping(value = "/receivings")
@@ -107,6 +114,13 @@ public class ReceivingController {
 
         List<OrderProduct> orderProducts = orderProductService.getOrderProductsByOrder(receiving.getOrder().getId());
         model.addAttribute("orderProducts", orderProducts);
+
+        List<ReceivingProduct> receivingProducts = receivingProductService.getReceivingProductsByReceiving(receiving);
+        model.addAttribute("receivingProducts", receivingProducts);
+
+        Map<OrderProduct, String> difference = receivingProductService.getReceivingProductOrderProductDifference(orderProducts, receivingProducts);
+        model.addAttribute("differenceMap", difference);
+        model.addAttribute("differenceKey", difference.keySet());
         return "receiving";
     }
 
@@ -114,14 +128,21 @@ public class ReceivingController {
     public String addProduct(@PathVariable(value = "id") Long receivingId,
                              @RequestParam(name = "product") Long productId,
                              Model model) {
-        return "receiving";
+        if (!productService.isProductExists(productId)) {
+            model.addAttribute("inputValue", productId);
+            return getReceiving(receivingId, model);
+        }
+
+        receivingProductService.addOneReceivingProduct(receivingId, productId);
+        return "redirect:/receivings/" + receivingId;
     }
 
-    @GetMapping("/receiving/{id}/{productId}")
+    @GetMapping(value = "/receivings/{id}", params = {"product", "count"})
     public String editProductCount(@PathVariable(value = "id") Long receivingId,
-                                   @PathVariable(value = "productId") Long productId,
-                                   Model model) {
-        return "receiving";
+                                   @RequestParam(name = "product") Long productId,
+                                   @RequestParam(name = "count") int count) {
+        receivingProductService.setReceivingProductCount(receivingId, productId, count);
+        return "redirect:/receivings/" + receivingId;
     }
 
 }

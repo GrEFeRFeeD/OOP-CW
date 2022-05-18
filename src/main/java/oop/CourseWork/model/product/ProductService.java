@@ -14,4 +14,9 @@ public class ProductService {
     }
 
     public Product getProductById(Long id) { return productRepository.getById(id); }
+
+    public boolean isProductExists(Long productId) {
+        return productRepository.findById(productId).isPresent();
+    }
+
 }

@@ -11,6 +11,10 @@ import oop.CourseWork.model.product.Product;
 import oop.CourseWork.model.product.ProductRepository;
 import oop.CourseWork.model.provider.Provider;
 import oop.CourseWork.model.provider.ProviderRepository;
+import oop.CourseWork.model.receiving.Receiving;
+import oop.CourseWork.model.receiving.ReceivingRepository;
+import oop.CourseWork.model.receiving_product.ReceivingProduct;
+import oop.CourseWork.model.receiving_product.ReceivingProductKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -33,6 +37,8 @@ public class DataLoader implements ApplicationRunner {
     private OrderProductRepository orderProductRepository;
     @Autowired
     private EmployeeRepository employeeRepository;
+    @Autowired
+    private ReceivingRepository receivingRepository;
 
     public void run(ApplicationArguments args) {
         System.out.println(new Date(System.currentTimeMillis()) + " oop.CourseWork.startdata.DataLoader: Starting loading the start data...");
@@ -76,6 +82,9 @@ public class DataLoader implements ApplicationRunner {
         o1.addOrderBody(op22);
         pt5.addProductBody(op22);
 
+        Receiving r1 = new Receiving(null, null, o1, null, new HashSet<>());
+        o1.addReceiving(r1);
+
         productRepository.save(pt1);
         productRepository.save(pt2);
         productRepository.save(pt3);
@@ -99,6 +108,8 @@ public class DataLoader implements ApplicationRunner {
         orderProductRepository.save(op14);
         orderProductRepository.save(op21);
         orderProductRepository.save(op22);
+
+        receivingRepository.save(r1);
 
         System.out.println(new Date(System.currentTimeMillis()) + " oop.CourseWork.startdata.DataLoader: Start data successfully loaded.");
     }

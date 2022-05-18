@@ -17,22 +17,48 @@
       margin-bottom: 10px;
     }
 
+    .incorrectInput {
+      background: red;
+    }
+
   </style>
 
   <script>
 
-  $(document).keyup(function(event) {
-    if ($("#product-input").is(":focus") && event.key == "Enter") {
-        inputActivated();
-    }
-  });
 
     function inputActivated() {
       let inputValue = document.getElementById('product-input').value;
       let receivingId = [[${receivingId}]];
-      window.open('/receivings/' + receivingId + '/' + inputValue, '_self');
+      window.open('/receivings/' + receivingId + '?product=' + inputValue, '_self');
     }
   </script>
+  <script>
+  $(document).ready(function() {
+    let inputVal = document.getElementById('product-input').value;
+    if (inputVal == [[${inputValue}]]) {
+      document.getElementById('product-input').classList.add('incorrectInput');
+    }
+  });
+  </script>
+  <script>
+      $(document).ready(function() {
+          let receivingPrices = document.getElementsByClassName('receiving-price-span');
+          let receivings = document.getElementsByClassName('count-input');
+          let receivingSum = 0;
+          for (let i = 0; i < receivingPrices.length; i++) {
+            receivingSum += receivingPrices[i].textContent*parseInt(receivings[i].value);
+          }
+          document.getElementById('receiving-sum').innerHTML = Number(receivingSum).toFixed(2);
+
+          let orderPrices = document.getElementsByClassName('order-price');
+          let orders = document.getElementsByClassName('order-count');
+          let orderSum = 0;
+          for (let i = 0; i < orderPrices.length; i++) {
+            orderSum += orderPrices[i].textContent*parseInt(orders[i].textContent);
+          }
+          document.getElementById('order-sum').innerHTML = Number(orderSum).toFixed(2);
+      });
+    </script>
 </head>
 <body>
 
@@ -48,7 +74,7 @@
         <button disabled class="btn btn-info">Додати накладну постачальника</button>
       </div>
       <div class="row inner-row">
-        <input id="product-input" type="number" class="form-control" onchange="inputActivated();">
+        <input id="product-input" type="number" class="form-control" th:value="${inputValue}" onchange="inputActivated();">
       </div>
       <div class="row inner-row" style="overflow:auto; min-height: 485px; max-height: 485px">
         <table class="table" style="border-collapse: collapse;">
@@ -60,11 +86,18 @@
             <td>Ціна</td>
           </tr>
           </thead>
-          <tbody></tbody>
+          <tbody>
+            <tr th:each="receivingProduct : ${receivingProducts}">
+              <td><span th:text="${receivingProduct.product.id}"/></td>
+              <td><span th:text="${receivingProduct.product.name}"/></td>
+              <td><input class="form-control count-input" type="number" th:value="${receivingProduct.count}" th:onchange="window.open('/receivings/' + [[${receivingId}]]  + '?product=' + [[${receivingProduct.product.id}]] + '&count=' + value, '_self');"></td>
+              <td><span th:text="${receivingProduct.price}" class="receiving-price-span"/></td>
+            </tr>
+          </tbody>
           <tfoot style="position: sticky; bottom: 0;  background: #909090; ">
             <tr>
               <td colspan="3">Усього:</td>
-              <td>1000</td>
+              <td><span id="receiving-sum">0</span></td>
             </tr>
           </tfoot>
         </table>
@@ -104,14 +137,14 @@
             <tr th:each="op : ${orderProducts}">
               <td><span th:text="${op.productObj.id}"/></td>
               <td><span th:text="${op.productObj.name}"/></td>
-              <td><span th:text="${op.order}"/></td>
-              <td><span th:text="${op.productObj.price}"/></td>
+              <td><span th:text="${op.order}" class="order-count"/></td>
+              <td><span th:text="${op.productObj.price}" class="order-price"/></td>
             </tr>
           </tbody>
           <tfoot style="position: sticky; bottom: 0;  background: #909090; ">
             <tr>
               <td colspan="3">Усього:</td>
-              <td>1000</td>
+              <td><span id="order-sum">0</span></td>
             </tr>
           </tfoot>
         </table>
@@ -129,11 +162,18 @@
               <td>Ціна</td>
             </tr>
           </thead>
-          <tbody></tbody>
+          <tbody>
+            <tr th:each="dif : ${differenceKey}" th:style="'background: ' + ${differenceMap.get(dif)}">
+              <td><span th:text="${dif.productObj.id}" /></td>
+              <td><span th:text="${dif.productObj.name}"/></td>
+              <td><span th:text="${dif.order}"/></td>
+              <td><span th:text="${dif.productObj.price}"/></td>
+            </tr>
+          </tbody>
           <tfoot style="position: sticky; bottom: 0;  background: #909090; ">
             <tr>
               <td colspan="3">Усього:</td>
-              <td>1000</td>
+              <td><span id="subtract-sum">0</span></td>
             </tr>
           </tfoot>
         </table>
