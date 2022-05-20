@@ -1,5 +1,6 @@
 package oop.CourseWork.startdata;
 
+import oop.CourseWork.config.SecurityConfig;
 import oop.CourseWork.model.employee.Employee;
 import oop.CourseWork.model.employee.EmployeeRepository;
 import oop.CourseWork.model.order.Order;
@@ -15,6 +16,8 @@ import oop.CourseWork.model.receiving.Receiving;
 import oop.CourseWork.model.receiving.ReceivingRepository;
 import oop.CourseWork.model.receiving_product.ReceivingProduct;
 import oop.CourseWork.model.receiving_product.ReceivingProductKey;
+import oop.CourseWork.model.role.Role;
+import oop.CourseWork.model.role.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -39,18 +42,33 @@ public class DataLoader implements ApplicationRunner {
     private EmployeeRepository employeeRepository;
     @Autowired
     private ReceivingRepository receivingRepository;
+    @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
+    private SecurityConfig securityConfig;
 
     public void run(ApplicationArguments args) {
         System.out.println(new Date(System.currentTimeMillis()) + " oop.CourseWork.startdata.DataLoader: Starting loading the start data...");
+
         Product pt1 = new Product(null, "Кефір", 45.32, null, new HashSet<>(), new HashSet<>(), new HashSet<>());
         Product pt2 = new Product(null, "Молоко", 23.41, null, new HashSet<>(), new HashSet<>(), new HashSet<>());
         Product pt3 = new Product(null, "Сметана", 38.90, null, new HashSet<>(), new HashSet<>(), new HashSet<>());
         Product pt4 = new Product(null, "Плавлений сир", 12.10,  null, new HashSet<>(), new HashSet<>(), new HashSet<>());
         Product pt5 = new Product(null, "Ряженка", 28.74, null, new HashSet<>(), new HashSet<>(), new HashSet<>());
 
-        Employee e1 = new Employee(null, "Пригорченко", "Василь", "Миколайович", "+380964444444", "Менеджер", "manag1", "bebebe", new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>());
-        Employee e2 = new Employee(null, "Голослівна", "Олена", "Петрівна", "+380965555555", "Касир", "cashi1", "bebebe", new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>());
-        Employee e3 = new Employee(null, "Незабудько", "Грегор", "Модемович", "+380966666666", "Прийомщик", "rec1", "bebebe", new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>());
+        Role role1 = new Role(null, "ROLE_MANAGER", new HashSet<>());
+        Role role2 = new Role(null, "ROLE_CASHIER", new HashSet<>());
+        Role role3 = new Role(null, "ROLE_RECEIVER", new HashSet<>());
+
+        Employee e1 = new Employee(null, "Пригорченко", "Василь", "Миколайович", "+380964444444", "Менеджер", "manager1", securityConfig.passwordEncoder().encode("bebebe"), "bebebe", new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>());
+        Employee e2 = new Employee(null, "Голослівна", "Олена", "Петрівна", "+380965555555", "Касир", "cashier1", securityConfig.passwordEncoder().encode("bebebe"), "bebebe", new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>());
+        Employee e3 = new Employee(null, "Незабудько", "Грегор", "Модемович", "+380966666666", "Прийомщик", "receivier1", securityConfig.passwordEncoder().encode("bebebe"), "bebebe", new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>());
+        e1.addRole(role1);
+        role1.addEmployee(e1);
+        e2.addRole(role2);
+        role2.addEmployee(e2);
+        e3.addRole(role3);
+        role3.addEmployee(e3);
 
         Provider pr1 = new Provider(null, "ТОВ Біла лінія", "Email1@example.com", "+380781111111", new HashSet<>());
         Provider pr2 = new Provider(null, "ТОВ ДЛКМ", "Email2@example.com", "+380782222222", new HashSet<>());
@@ -90,6 +108,10 @@ public class DataLoader implements ApplicationRunner {
         productRepository.save(pt3);
         productRepository.save(pt4);
         productRepository.save(pt5);
+
+        roleRepository.save(role1);
+        roleRepository.save(role2);
+        roleRepository.save(role3);
 
         employeeRepository.save(e1);
         employeeRepository.save(e2);

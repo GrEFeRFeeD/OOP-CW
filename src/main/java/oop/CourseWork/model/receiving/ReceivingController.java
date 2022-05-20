@@ -1,5 +1,6 @@
 package oop.CourseWork.model.receiving;
 
+import oop.CourseWork.model.employee.EmployeeService;
 import oop.CourseWork.model.order.Order;
 import oop.CourseWork.model.order.OrderService;
 import oop.CourseWork.model.order_product.OrderProduct;
@@ -12,6 +13,8 @@ import oop.CourseWork.model.receiving_product.ReceivingProduct;
 import oop.CourseWork.model.receiving_product.ReceivingProductKey;
 import oop.CourseWork.model.receiving_product.ReceivingProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,15 +32,17 @@ public class ReceivingController {
     private OrderProductService orderProductService;
     private ProductService productService;
     private ReceivingProductService receivingProductService;
+    private EmployeeService employeeService;
 
     @Autowired
-    public ReceivingController(ReceivingService receivingService, ProviderService providerService, OrderService orderService, OrderProductService orderProductService, ProductService productService, ReceivingProductService receivingProductService) {
+    public ReceivingController(ReceivingService receivingService, ProviderService providerService, OrderService orderService, OrderProductService orderProductService, ProductService productService, ReceivingProductService receivingProductService, EmployeeService employeeService) {
         this.receivingService = receivingService;
         this.providerService = providerService;
         this.orderService = orderService;
         this.orderProductService = orderProductService;
         this.productService = productService;
         this.receivingProductService = receivingProductService;
+        this.employeeService = employeeService;
     }
 
     @GetMapping(value = "/receivings")
@@ -89,9 +94,11 @@ public class ReceivingController {
 
     @GetMapping("/receivings/new_receiving")
     public String newReceiving(@RequestParam(name = "order") Long orderId, Model model) {
-        //TODO: Sign employee
-        Receiving receiving = new Receiving(null, new Date(System.currentTimeMillis()),
-                orderService.getOrderById(orderId), null, new HashSet<>());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Receiving receiving = new Receiving(null,
+                new Date(System.currentTimeMillis()),
+                orderService.getOrderById(orderId),
+                employeeService.findEmployeeByUsername(authentication.getName()), new HashSet<>());
         Long receivingId = receivingService.addReceiving(receiving).getId();
         return "redirect:/receivings/" + receivingId;
     }

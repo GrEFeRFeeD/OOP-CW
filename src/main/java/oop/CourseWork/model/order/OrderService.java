@@ -8,7 +8,10 @@ import oop.CourseWork.model.product.Product;
 import oop.CourseWork.model.product.ProductRepository;
 import oop.CourseWork.model.provider.Provider;
 import oop.CourseWork.model.provider.ProviderRepository;
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -31,15 +34,16 @@ public class OrderService {
         this.orderProductRepository = orderProductRepository;
     }
 
-    private Order addToRepository(Order order, Long providerId, Long employeeId) {
+    private Order addToRepository(Order order, Long providerId) {
         order.setDate(new Date(System.currentTimeMillis()));
         order.setProvider(providerRepository.getById(providerId));
-        //TODO: employee_id connection order.setEmployee(employeeRepository.getById(employeeId));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        order.setEmployee(employeeRepository.findEmployeeByUsername(authentication.getName()));
         return orderRepository.save(order);
     }
 
-    public Order addOrder(Order order, Long providerId, Long employeeId) {
-        Order savedOrder = addToRepository(order, providerId, employeeId);
+    public Order addOrder(Order order, Long providerId) {
+        Order savedOrder = addToRepository(order, providerId);
 
         for(Product p : productRepository.findAll()) {
             OrderProduct orderProduct = new OrderProduct(new OrderProductKey(), savedOrder, p, 0, 0, 0);

@@ -84,7 +84,7 @@ public class Order {
                 "id=" + id +
                 ", date=" + date +
                 ", provider=" + provider.getName() +
-               //TODO: uncomment ", employee=" + employee.getFirstName() +
+                ", employee=" + employee.getFirstName() +
                 ", files=" + files +
                 ", receivings=" + receivings +
                 ", orderBody=" + orderBody +

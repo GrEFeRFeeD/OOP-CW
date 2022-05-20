@@ -8,6 +8,7 @@ import oop.CourseWork.model.check.Check;
 import oop.CourseWork.model.order.Order;
 import oop.CourseWork.model.productLog.ProductLog;
 import oop.CourseWork.model.receiving.Receiving;
+import oop.CourseWork.model.role.Role;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -23,7 +24,7 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "employee_id")
-    private Long id;
+    private Long employeeId;
 
     @Column(name = "last_name")
     private String lastName;
@@ -38,11 +39,14 @@ public class Employee {
 
     private String position;
 
-    @Column(name = "login", unique = true)
-    private String login;
+    @Column(name = "username", unique = true)
+    private String username;
 
     @Column(name = "password")
     private String password;
+
+    @Transient
+    private String confirmedPassword;
 
     @OneToMany(mappedBy = "employee")
     @JsonIgnore
@@ -60,6 +64,12 @@ public class Employee {
     @JsonIgnore
     private Set<ProductLog> productLogs;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "employees_roles",
+            joinColumns = @JoinColumn(name = "employeeId"),
+            inverseJoinColumns = @JoinColumn(name = "roleId"))
+    private Set<Role> roles;
+
     public void addCheck(Check check) {
         checks.add(check);
     }
@@ -72,8 +82,10 @@ public class Employee {
 
     public void addProductLog(ProductLog productLog) { productLogs.add(productLog); }
 
+    public void addRole(Role role) { roles.add(role); }
+
     @Override
     public int hashCode() {
-        return Objects.hash(id, lastName, firstName, patronymic, phoneNumber, position, login, password);
+        return Objects.hash(employeeId, lastName, firstName, patronymic, phoneNumber, position, username, password);
     }
 }

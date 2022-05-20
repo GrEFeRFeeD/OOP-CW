@@ -47,8 +47,7 @@ public class OrderController {
     public String getNewOrder(@RequestParam(value = "provider") Long providerId, Model model) {
 
         Provider provider = providerService.getProviderById(providerId);
-        //TODO: employee sign (Spring Security)
-        Order order = orderService.addOrder(new Order(), providerId, null);
+        Order order = orderService.addOrder(new Order(), providerId);
 
         return "redirect:/orders/" + order.getId();
     }
