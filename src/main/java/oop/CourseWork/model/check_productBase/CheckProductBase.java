@@ -8,6 +8,7 @@ import oop.CourseWork.model.check.Check;
 import oop.CourseWork.model.productBase.ProductBase;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "checks_products")
@@ -32,4 +33,27 @@ public class CheckProductBase {
     private int count;
     private double price;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CheckProductBase that = (CheckProductBase) o;
+        return count == that.count && Double.compare(that.price, price) == 0 && id.equals(that.id) && Objects.equals(check, that.check) && Objects.equals(productBase, that.productBase);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, check, productBase, count, price);
+    }
+
+    @Override
+    public String toString() {
+        return "CheckProductBase{" +
+                "id=" + id +
+                ", check=" + check.getId() +
+                ", productBase=" + productBase.getId() +
+                ", count=" + count +
+                ", price=" + price +
+                '}';
+    }
 }

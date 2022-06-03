@@ -1,6 +1,13 @@
 package oop.CourseWork.startdata;
 
 import oop.CourseWork.config.SecurityConfig;
+import oop.CourseWork.config.ShopConfig;
+import oop.CourseWork.model.check.Check;
+import oop.CourseWork.model.check.CheckRepository;
+import oop.CourseWork.model.check.CheckStatus;
+import oop.CourseWork.model.check_productBase.CheckProductBase;
+import oop.CourseWork.model.check_productBase.CheckProductBaseKey;
+import oop.CourseWork.model.check_productBase.CheckProductBaseRepository;
 import oop.CourseWork.model.employee.Employee;
 import oop.CourseWork.model.employee.EmployeeRepository;
 import oop.CourseWork.model.order.Order;
@@ -10,6 +17,8 @@ import oop.CourseWork.model.order_product.OrderProductKey;
 import oop.CourseWork.model.order_product.OrderProductRepository;
 import oop.CourseWork.model.product.Product;
 import oop.CourseWork.model.product.ProductRepository;
+import oop.CourseWork.model.productBase.ProductBase;
+import oop.CourseWork.model.productBase.ProductBaseRepository;
 import oop.CourseWork.model.provider.Provider;
 import oop.CourseWork.model.provider.ProviderRepository;
 import oop.CourseWork.model.receiving.Receiving;
@@ -46,9 +55,17 @@ public class DataLoader implements ApplicationRunner {
     private RoleRepository roleRepository;
     @Autowired
     private SecurityConfig securityConfig;
+    @Autowired
+    private CheckRepository checkRepository;
+    @Autowired
+    private ProductBaseRepository productBaseRepository;
+    @Autowired
+    private CheckProductBaseRepository checkProductBaseRepository;
 
     public void run(ApplicationArguments args) {
         System.out.println(new Date(System.currentTimeMillis()) + " oop.CourseWork.startdata.DataLoader: Starting loading the start data...");
+
+        ShopConfig shopConfig = ShopConfig.getInstance("Одеса", "вул. Шевченко, 1", 0.15);
 
         Product pt1 = new Product(null, "Кефір", 45.32, null, new HashSet<>(), new HashSet<>(), new HashSet<>());
         Product pt2 = new Product(null, "Молоко", 23.41, null, new HashSet<>(), new HashSet<>(), new HashSet<>());
@@ -103,6 +120,39 @@ public class DataLoader implements ApplicationRunner {
         Receiving r1 = new Receiving(null, null, o1, null, new HashSet<>());
         o1.addReceiving(r1);
 
+        Check c1 = new Check(null, new Date(System.currentTimeMillis()), CheckStatus.CLOSED, e2, new HashSet<>());
+        e2.addCheck(c1);
+
+        Check c2 = new Check(null, new Date(System.currentTimeMillis() + 100000), CheckStatus.OPEN, e2, new HashSet<>());
+        e2.addCheck(c2);
+
+        ProductBase pb1 = new ProductBase(null, 43, pt1.getPrice(), pt1.getPrice()*(shopConfig.getMargin() + 1), pt1, new HashSet<>());
+        pt1.setProductBase(pb1);
+        ProductBase pb2 = new ProductBase(null, 36, pt2.getPrice(), pt2.getPrice()*(shopConfig.getMargin() + 1), pt2, new HashSet<>());
+        pt2.setProductBase(pb2);
+        ProductBase pb3 = new ProductBase(null, 57, pt3.getPrice(), pt3.getPrice()*(shopConfig.getMargin() + 1), pt3, new HashSet<>());
+        pt3.setProductBase(pb3);
+        ProductBase pb4 = new ProductBase(null, 24, pt4.getPrice(), pt4.getPrice()*(shopConfig.getMargin() + 1), pt4, new HashSet<>());
+        pt4.setProductBase(pb4);
+        ProductBase pb5 = new ProductBase(null, 10, pt5.getPrice(), pt5.getPrice()*(shopConfig.getMargin() + 1), pt5, new HashSet<>());
+        pt5.setProductBase(pb5);
+
+        CheckProductBase cpb11 = new CheckProductBase(new CheckProductBaseKey(), c1, pb1, 4, pb1.getSellingPrice());
+        c1.addCheckBody(cpb11);
+        pb1.addProductBaseBody(cpb11);
+        CheckProductBase cpb12 = new CheckProductBase(new CheckProductBaseKey(), c1, pb3, 3, pb3.getSellingPrice());
+        c1.addCheckBody(cpb12);
+        pb3.addProductBaseBody(cpb12);
+        CheckProductBase cpb13 = new CheckProductBase(new CheckProductBaseKey(), c1, pb5, 2, pb5.getSellingPrice());
+        c1.addCheckBody(cpb13);
+        pb5.addProductBaseBody(cpb13);
+        CheckProductBase cpb21 = new CheckProductBase(new CheckProductBaseKey(), c2, pb2, 5, pb2.getSellingPrice());
+        c2.addCheckBody(cpb21);
+        pb2.addProductBaseBody(cpb21);
+        CheckProductBase cpb22 = new CheckProductBase(new CheckProductBaseKey(), c2, pb4, 1, pb4.getSellingPrice());
+        c2.addCheckBody(cpb22);
+        pb4.addProductBaseBody(cpb22);
+
         productRepository.save(pt1);
         productRepository.save(pt2);
         productRepository.save(pt3);
@@ -132,6 +182,21 @@ public class DataLoader implements ApplicationRunner {
         orderProductRepository.save(op22);
 
         receivingRepository.save(r1);
+
+        checkRepository.save(c1);
+        checkRepository.save(c2);
+
+        checkProductBaseRepository.save(cpb11);
+        checkProductBaseRepository.save(cpb12);
+        checkProductBaseRepository.save(cpb13);
+        checkProductBaseRepository.save(cpb21);
+        checkProductBaseRepository.save(cpb22);
+
+        productBaseRepository.save(pb1);
+        productBaseRepository.save(pb2);
+        productBaseRepository.save(pb3);
+        productBaseRepository.save(pb4);
+        productBaseRepository.save(pb5);
 
         System.out.println(new Date(System.currentTimeMillis()) + " oop.CourseWork.startdata.DataLoader: Start data successfully loaded.");
     }

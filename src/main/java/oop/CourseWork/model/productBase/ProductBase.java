@@ -1,16 +1,21 @@
 package oop.CourseWork.model.productBase;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import oop.CourseWork.model.check_productBase.CheckProductBase;
 import oop.CourseWork.model.product.Product;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "product_base")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductBase {
 
     @Id
@@ -23,8 +28,8 @@ public class ProductBase {
     @Column(name = "purchase_price")
     private double purchasePrice;
 
-    @Column(name = "buying_price")
-    private double buyingPrice;
+    @Column(name = "selling_price")
+    private double sellingPrice;
 
     @OneToOne
     @MapsId
@@ -37,5 +42,18 @@ public class ProductBase {
 
     public void addProductBaseBody(CheckProductBase checkProductBase) {
         productBaseBody.add(checkProductBase);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductBase that = (ProductBase) o;
+        return count == that.count && Double.compare(that.purchasePrice, purchasePrice) == 0 && Double.compare(that.sellingPrice, sellingPrice) == 0 && id.equals(that.id) && Objects.equals(product, that.product);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, count, purchasePrice, sellingPrice, product);
     }
 }

@@ -88,4 +88,19 @@ public class Employee {
     public int hashCode() {
         return Objects.hash(employeeId, lastName, firstName, patronymic, phoneNumber, position, username, password);
     }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "employeeId=" + employeeId +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", patronymic='" + patronymic + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", position='" + position + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", confirmedPassword='" + confirmedPassword + '\'' +
+                '}';
+    }
 }

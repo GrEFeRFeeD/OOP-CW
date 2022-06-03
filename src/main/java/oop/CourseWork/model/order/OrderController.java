@@ -29,7 +29,7 @@ public class OrderController {
         this.productService = productService;
     }
 
-    @GetMapping("/orders/all")
+    @GetMapping({"/orders", "/orders/all"})
     public String getOrderList(Model model) {
 
         List<Order> orderList = orderService.getAllOrders();

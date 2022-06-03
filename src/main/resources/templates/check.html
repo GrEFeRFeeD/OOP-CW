@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Cashier</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <style>
+        .incorrectInput {
+        background: red;
+        }
+    </style>
+
+    <script>
+        function inputActivated() {
+          let inputValue = document.getElementById('product-input').value;
+          let checkId = [[${curCheck.id}]];
+          window.open('/checks/' + checkId + '?product=' + inputValue, '_self');
+        }
+    </script>
+    <script>
+        $(document).ready(function() {
+            let inputVal = document.getElementById('product-input').value;
+            if (inputVal == [[${inputValue}]]) {
+                document.getElementById('product-input').classList.add('incorrectInput');
+            }
+        });
+     </script>
+    <script>
+      $(document).ready(function() {
+          let checkPrices = document.getElementsByClassName('check-price-span');
+          let checkCounts = document.getElementsByClassName('count-input');
+          let checkSum = 0;
+          for (let i = 0; i < checkPrices.length; i++) {
+            checkSum += checkPrices[i].textContent*parseInt(checkCounts[i].value);
+          }
+          document.getElementById('check-sum').innerHTML = Number(checkSum).toFixed(2);
+      });
+    </script>
+</head>
+<body>
+    <nav style="margin: 20px">
+        <div class="row">
+            <div class="col-10">
+                <input th:value="${inputValue}" onchange="inputActivated();" type="number" id="product-input" class="input-group form-control-lg">
+            </div>
+            <script>
+                function closeButtonFun() {
+
+                    let msg = 'Ви дійсно бажаєте завершити сессію?';
+
+                    if ( [[${activeNotEmptyChecksCount}]] > 0 ) {
+                        msg = 'Ви дійсно бажаєте завершити сессію та скасувати ' + [[${activeNotEmptyChecksCount}]] + ' чеки?';
+                    }
+
+                    if (confirm(msg)) {
+                        window.open('/checks/decline_all', '_self');
+                    }
+                }
+            </script>
+            <div class="col-2" align="right">
+                <button class="btn btn-danger btn-square-md btn-lg" onclick="closeButtonFun();">X</button>
+            </div>
+        </div>
+
+
+    </nav>
+    <hr class="m-auto" align="center" width="98%" >
+    <main>
+        <div class="row" style="margin: 20px">
+            <div class="col-9" >
+                <div class="row" style="overflow:auto; min-height: 500px; max-height: 500px">
+                    <table class="table" style="border-collapse: collapse;">
+                        <thead style="position: sticky; top: 0;  background: #909090; ">
+                        <tr>
+                            <td>Найменування товару</td>
+                            <td>Кількість</td>
+                            <td>Ціна</td>
+                            <td>Сума</td>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr th:each="checkBody: ${checkProductBases}">
+                                <td><span th:text="${checkBody.productBase.product.name}"/></td>
+                                <td><input class="form-control count-input" type="number" th:value="${checkBody.count}" th:onchange="window.open('/checks/' + [[${curCheck.id}]]  + '?product=' + [[${checkBody.productBase.product.id}]] + '&count=' + value, '_self');"></td>
+                                <td><span class="check-price-span" th:text="${#numbers.formatDecimal(checkBody.price, 1, 2, 'POINT')}"/></td>
+                                <td><span th:text="${#numbers.formatDecimal((checkBody.price * checkBody.count), 1, 2, 'POINT')}"/></td>
+                            </tr>
+                        </tbody>
+
+                        <tfoot style="position: sticky; bottom: 0;  background: #909090; ">
+                        <tr>
+                            <td colspan="3">Усього</td>
+                            <td><span id="check-sum"/></td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <!-- Cash modal -->
+                <div class="modal fade" id="cashModalCenter" tabindex="-1" role="dialog" aria-labelledby="cashModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="cashModalLongTitle">Сплата готівкою</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Here comes some future features
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Скасувати</button>
+                                <button type="button" class="btn btn-primary" th:onclick="window.open('/checks/' + [[${curCheck.id}]] + '/close', '_self');">Підтвердити</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card modal -->
+                <div class="modal fade" id="cardModalCenter" tabindex="-1" role="dialog" aria-labelledby="cardModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="cardModalLongTitle">Сплата карткою</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="spinner-border text-primary" role="status"></div>
+                                <font size="6" id="loading-text">Loading...</font>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="window.canceled = true;">Скасувати</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-4 col-10 mx-auto">
+                    <button type="button" th:class="${closable}?'btn btn-success btn-lg':'btn btn-success btn-lg disabled'" data-toggle="modal" data-target="#cashModalCenter">Підтвердити (готівка)
+                        <img src="/image/confirm_cash.png" width="100"></button>
+
+                    <script>
+                        function imitateTransaction(checkId, i) {
+                            if (i == 0) window.canceled = false;
+
+                            let states = ['Очікування на термінал...', 'З\'єднання з банком...', 'Спроба #1: Аутентифікація...', 'Спроба #1: Авторизація...', 'Здійснення платежу...', 'Отримання...', 'Операція успішна.'];
+                            let timings = [1000, 800, 1200, 600, 600, 800, 1300, 500];
+
+                            if (i != 6) {
+                                if (window.canceled) return;
+                                document.getElementById("loading-text").innerHTML = states[i];
+                                setTimeout(imitateTransaction, timings[i], checkId, ++i);
+                            } else {
+                                if (window.canceled) return;
+                                setTimeout(() => window.open('/checks/' + checkId + '/close', '_self'), timings[i]);
+                            }
+                        }
+                    </script>
+
+                    <button type="button" th:class="${closable}?'btn btn-warning btn-lg':'btn btn-warning btn-lg disabled'" data-toggle="modal" data-target="#cardModalCenter" th:onclick="imitateTransaction([[${curCheck.id}]], 0);">Підтвердити (картка)
+                        <img src="/image/confirm_card.png" width="100"></button>
+
+                    <script>
+                        function declineCheckButton() {
+                            if ([[${!curCheck.checkBody.isEmpty()}]]) {
+                                if (confirm('Підтвердість скасування чеку на суму ' + document.getElementById('check-sum').innerHTML + ' грн.')) {
+                                    window.open('/checks/' + [[${curCheck.id}]] + '/decline', '_self');
+                                }
+                            } else {
+                                window.open('/checks/' + [[${curCheck.id}]] + '/decline', '_self');
+                            }
+                        }
+                    </script>
+                    <button th:class="${declinable}?'btn btn-danger btn-lg':'btn btn-danger btn-lg disabled'" th:onclick="declineCheckButton();">Скасувати
+                        <img src="" width="100"></button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <hr class="m-auto" align="center" width="98%" >
+    <footer>
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups" style="margin: 10px">
+            <div class="btn-group m-1" role="group" th:each="check, iStat : ${activeChecks}">
+                <a type="button" th:href="${'/checks/' + check.id}" th:class="${check.id == curCheck.id}?'btn btn-primary':'btn btn-secondary'"><span th:text="${'Чек ' + (iStat.index + 1)}"/></a>
+            </div>
+            <div class="btn-group m-1" role="group">
+                <a type="button" class="btn btn-outline-secondary" href="/checks/new_check">Новий чек</a>
+            </div>
+        </div>
+    </footer>
+    <hr class="m-auto" align="center" width="98%" >
+</body>
+</html>
