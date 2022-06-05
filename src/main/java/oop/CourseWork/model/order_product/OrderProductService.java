@@ -26,7 +26,7 @@ public class OrderProductService {
 
     public List<OrderProduct> getOrderProductsByOrder(Long orderId) {
         Optional<Order> order = orderRepository.findById(orderId);
-        return order.isEmpty()?null:orderProductRepository.findByOrderObj(order.get());
+        return order.isPresent()?orderProductRepository.findByOrderObj(order.get()):null;
     }
     public List<OrderProduct> getAllOrderProducts() {
         return orderProductRepository.findAll();
