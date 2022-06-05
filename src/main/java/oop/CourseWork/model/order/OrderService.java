@@ -81,7 +81,7 @@ public class OrderService {
 
     public void deleteOrder(Long orderId) {
         Optional<Order> orderOptional = orderRepository.findById(orderId);
-        if (orderOptional.isEmpty()) return;
+        if (!orderOptional.isPresent()) return;
         Order order = orderOptional.get();
         System.out.println("ORDER_BODY = " + order.getOrderBody());
         List<OrderProduct> orderProducts = orderProductRepository.findByOrderObj(order);
