@@ -8,6 +8,10 @@ import oop.CourseWork.model.product.Product;
 import oop.CourseWork.model.product.ProductRepository;
 import oop.CourseWork.model.provider.Provider;
 import oop.CourseWork.model.provider.ProviderRepository;
+import oop.CourseWork.model.receiving.Receiving;
+import oop.CourseWork.model.receiving.ReceivingRepository;
+import oop.CourseWork.model.receiving_product.ReceivingProduct;
+import oop.CourseWork.model.receiving_product.ReceivingProductRepository;
 import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -24,14 +28,18 @@ public class OrderService {
     private EmployeeRepository employeeRepository;
     private ProductRepository productRepository;
     private OrderProductRepository orderProductRepository;
+    private ReceivingRepository receivingRepository;
+    private ReceivingProductRepository receivingProductRepository;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, ProviderRepository providerRepository, EmployeeRepository employeeRepository, ProductRepository productRepository, OrderProductRepository orderProductRepository) {
+    public OrderService(OrderRepository orderRepository, ProviderRepository providerRepository, EmployeeRepository employeeRepository, ProductRepository productRepository, OrderProductRepository orderProductRepository, ReceivingRepository receivingRepository, ReceivingProductRepository receivingProductRepository) {
         this.orderRepository = orderRepository;
         this.providerRepository = providerRepository;
         this.employeeRepository = employeeRepository;
         this.productRepository = productRepository;
         this.orderProductRepository = orderProductRepository;
+        this.receivingRepository = receivingRepository;
+        this.receivingProductRepository = receivingProductRepository;
     }
 
     private Order addToRepository(Order order, Long providerId) {
@@ -86,6 +94,12 @@ public class OrderService {
         System.out.println("ORDER_BODY = " + order.getOrderBody());
         List<OrderProduct> orderProducts = orderProductRepository.findByOrderObj(order);
         orderProductRepository.deleteAll(orderProducts);
+        List<Receiving> receivings = receivingRepository.findByOrder(order);
+        for (Receiving receiving : receivings) {
+            List<ReceivingProduct> receivingProducts = receivingProductRepository.getReceivingProductsByReceiving(receiving);
+            receivingProductRepository.deleteAll(receivingProducts);
+        }
+        receivingRepository.deleteAll(receivings);
         orderRepository.delete(order);
     }
 

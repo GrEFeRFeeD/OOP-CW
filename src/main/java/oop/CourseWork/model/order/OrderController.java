@@ -29,7 +29,12 @@ public class OrderController {
         this.productService = productService;
     }
 
-    @GetMapping({"/orders", "/orders/all"})
+    @GetMapping("/orders")
+    public String redirectToOrdersPage() {
+        return "redirect:/orders/all";
+    }
+
+    @GetMapping("/orders/all")
     public String getOrderList(Model model) {
 
         List<Order> orderList = orderService.getAllOrders();
@@ -77,7 +82,7 @@ public class OrderController {
         return "order";
     }
 
-    @GetMapping("/orders")
+    @GetMapping(value = "/orders", params = "provider")
     public String getOrderByProvider(@RequestParam(value = "provider") Long providerId, Model model) {
         Provider provider = providerService.getProviderById(providerId);
         model.addAttribute("provider_id", providerId);
