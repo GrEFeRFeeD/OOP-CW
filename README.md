@@ -3,6 +3,11 @@
 ПЗ для для обліку та продажу товару <br>
 Software for counting and selling products
 
+### Розгортання / Deployment
+Останню розгорнуту версію продукту можна знайти за посиланням нижче. <br>
+Last deployed version of product can be found by the link below. <br>
+[Посилання на останню розгорнуту версію продукту / Last deployed product version link](https://csp-shop.herokuapp.com/)
+
 #### Склад команди / Line-up
 АІ204 Бєлобров А. О.
 
@@ -14,8 +19,8 @@ Software creates the system which automatizes procesess of counting, recieving, 
 Java, Spring, Hibernate, PostgreSQL, Bootstrap, Thymeleaf
 
 <br><br>
-UI/UX продукту  - [Посилання на Figma](https://www.figma.com/file/RedTxkPfvIvVLLUdxDhmnj/OOP-CW?node-id=0%3A1) <br>
-Беклог продукту - [Посилання на Google Docs](https://docs.google.com/spreadsheets/d/16yxTzO1KasehXI3JCAOZzH2GR46FFQkO_cL4NIKiV5s/edit?usp=sharing)
+#### UI/UX продукту  - [Посилання на Figma](https://www.figma.com/file/RedTxkPfvIvVLLUdxDhmnj/OOP-CW?node-id=0%3A1) <br>
+#### Беклог продукту - [Посилання на Google Docs](https://docs.google.com/spreadsheets/d/16yxTzO1KasehXI3JCAOZzH2GR46FFQkO_cL4NIKiV5s/edit?usp=sharing)
 <br><br>
 
 ## Бачення системи / Vision of the system
