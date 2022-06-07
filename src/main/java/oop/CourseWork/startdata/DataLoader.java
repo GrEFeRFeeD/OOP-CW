@@ -12,17 +12,23 @@ import oop.CourseWork.model.employee.Employee;
 import oop.CourseWork.model.employee.EmployeeRepository;
 import oop.CourseWork.model.order.Order;
 import oop.CourseWork.model.order.OrderRepository;
+import oop.CourseWork.model.order.OrderStatus;
 import oop.CourseWork.model.order_product.OrderProduct;
 import oop.CourseWork.model.order_product.OrderProductKey;
 import oop.CourseWork.model.order_product.OrderProductRepository;
 import oop.CourseWork.model.product.Product;
+import oop.CourseWork.model.product.ProductGroup;
 import oop.CourseWork.model.product.ProductRepository;
 import oop.CourseWork.model.productBase.ProductBase;
 import oop.CourseWork.model.productBase.ProductBaseRepository;
+import oop.CourseWork.model.productLog.ProductLog;
+import oop.CourseWork.model.productLog.ProductLogRepository;
+import oop.CourseWork.model.productLog.ProductLogType;
 import oop.CourseWork.model.provider.Provider;
 import oop.CourseWork.model.provider.ProviderRepository;
 import oop.CourseWork.model.receiving.Receiving;
 import oop.CourseWork.model.receiving.ReceivingRepository;
+import oop.CourseWork.model.receiving.ReceivingStatus;
 import oop.CourseWork.model.receiving_product.ReceivingProduct;
 import oop.CourseWork.model.receiving_product.ReceivingProductKey;
 import oop.CourseWork.model.role.Role;
@@ -32,9 +38,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class DataLoader implements ApplicationRunner {
@@ -61,40 +65,46 @@ public class DataLoader implements ApplicationRunner {
     private ProductBaseRepository productBaseRepository;
     @Autowired
     private CheckProductBaseRepository checkProductBaseRepository;
+    @Autowired
+    private ProductLogRepository productLogRepository;
 
     public void run(ApplicationArguments args) {
         System.out.println(new Date(System.currentTimeMillis()) + " oop.CourseWork.startdata.DataLoader: Starting loading the start data...");
 
         ShopConfig shopConfig = ShopConfig.getInstance("Одеса", "вул. Шевченко, 1", 0.15);
 
-        Product pt1 = new Product(null, "Кефір", 45.32, null, new HashSet<>(), new HashSet<>(), new HashSet<>());
-        Product pt2 = new Product(null, "Молоко", 23.41, null, new HashSet<>(), new HashSet<>(), new HashSet<>());
-        Product pt3 = new Product(null, "Сметана", 38.90, null, new HashSet<>(), new HashSet<>(), new HashSet<>());
-        Product pt4 = new Product(null, "Плавлений сир", 12.10,  null, new HashSet<>(), new HashSet<>(), new HashSet<>());
-        Product pt5 = new Product(null, "Ряженка", 28.74, null, new HashSet<>(), new HashSet<>(), new HashSet<>());
+        Product pt1 = new Product(null, new ArrayList<>(), "Кефір", 45.32, null, new HashSet<>(), new HashSet<>(), new HashSet<>());
+        Product pt2 = new Product(null, new ArrayList<>(), "Молоко", 23.41, null, new HashSet<>(), new HashSet<>(), new HashSet<>());
+        Product pt3 = new Product(null, new ArrayList<>(), "Сметана", 38.90, null, new HashSet<>(), new HashSet<>(), new HashSet<>());
+        Product pt4 = new Product(null, new ArrayList<>(), "Плавлений сир", 12.10,  null, new HashSet<>(), new HashSet<>(), new HashSet<>());
+        Product pt5 = new Product(null, new ArrayList<>(), "Ряженка", 28.74, null, new HashSet<>(), new HashSet<>(), new HashSet<>());
 
         Role role1 = new Role(null, "ROLE_MANAGER", new HashSet<>());
         Role role2 = new Role(null, "ROLE_CASHIER", new HashSet<>());
         Role role3 = new Role(null, "ROLE_RECEIVER", new HashSet<>());
+        Role role4 = new Role(null, "ROLE_ADMIN", new HashSet<>());
 
         Employee e1 = new Employee(null, "Пригорченко", "Василь", "Миколайович", "+380964444444", "Менеджер", "manager1", securityConfig.passwordEncoder().encode("bebebe"), "bebebe", new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>());
         Employee e2 = new Employee(null, "Голослівна", "Олена", "Петрівна", "+380965555555", "Касир", "cashier1", securityConfig.passwordEncoder().encode("bebebe"), "bebebe", new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>());
         Employee e3 = new Employee(null, "Незабудько", "Грегор", "Модемович", "+380966666666", "Прийомщик", "receivier1", securityConfig.passwordEncoder().encode("bebebe"), "bebebe", new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>());
+        Employee e4 = new Employee(null, "Чаїна", "Юлія", "Григоріївна", "+380911111111", "Адміністратор", "admin1", securityConfig.passwordEncoder().encode("bebebe"), "bebebe", new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>());
         e1.addRole(role1);
         role1.addEmployee(e1);
         e2.addRole(role2);
         role2.addEmployee(e2);
         e3.addRole(role3);
         role3.addEmployee(e3);
+        e4.addRole(role4);
+        role4.addEmployee(e4);
 
         Provider pr1 = new Provider(null, "ТОВ Біла лінія", "Email1@example.com", "+380781111111", new HashSet<>());
         Provider pr2 = new Provider(null, "ТОВ ДЛКМ", "Email2@example.com", "+380782222222", new HashSet<>());
         Provider pr3 = new Provider(null, "ФОП Стась О. С.", "Email3@example.com", "+380783333333", new HashSet<>());
 
-        Order o1 = new Order(null, new Date(120, 10, 10), pr1, e1, new HashSet<>(), new HashSet<>(), new HashSet<>());
+        Order o1 = new Order(null, new Date(120, 10, 10), OrderStatus.OPEN, pr1, e1, new HashSet<>(), new HashSet<>(), new HashSet<>());
         pr1.addOrder(o1);
         e1.addOrder(o1);
-        Order o2 = new Order(null, new Date(120, 11, 10), pr2, e1, new HashSet<>(), new HashSet<>(), new HashSet<>());
+        Order o2 = new Order(null, new Date(120, 11, 10), OrderStatus.OPEN, pr2, e1, new HashSet<>(), new HashSet<>(), new HashSet<>());
         pr2.addOrder(o2);
         e1.addOrder(o2);
 
@@ -117,7 +127,7 @@ public class DataLoader implements ApplicationRunner {
         o1.addOrderBody(op22);
         pt5.addProductBody(op22);
 
-        Receiving r1 = new Receiving(null, null, o1, null, new HashSet<>());
+        Receiving r1 = new Receiving(null, null, ReceivingStatus.OPEN, o1, null, new HashSet<>());
         o1.addReceiving(r1);
 
         Check c1 = new Check(null, new Date(System.currentTimeMillis()), CheckStatus.CLOSED, e2, new HashSet<>());
@@ -153,6 +163,16 @@ public class DataLoader implements ApplicationRunner {
         c2.addCheckBody(cpb22);
         pb4.addProductBaseBody(cpb22);
 
+        ProductLog pl1 = new ProductLog(null, ProductLogType.RECEIVING, pb1.getCount(), pb1.getPurchasePrice(), new Date(System.currentTimeMillis()), pb1.getProduct(), e3);
+        pb1.getProduct().addProductLog(pl1);
+        e3.addProductLog(pl1);
+        ProductLog pl2 = new ProductLog(null, ProductLogType.CHECKINGOUT, 10, pb1.getSellingPrice(), new Date(System.currentTimeMillis() + 1000000), pb1.getProduct(), e2);
+        pb1.getProduct().addProductLog(pl2);
+        e2.addProductLog(pl2);
+        ProductLog pl3 = new ProductLog(null, ProductLogType.RETURNING, 5, pb1.getPurchasePrice(), new Date(System.currentTimeMillis()), pb1.getProduct(), e1);
+        pb1.getProduct().addProductLog(pl3);
+        e1.addProductLog(pl3);
+
         productRepository.save(pt1);
         productRepository.save(pt2);
         productRepository.save(pt3);
@@ -162,10 +182,12 @@ public class DataLoader implements ApplicationRunner {
         roleRepository.save(role1);
         roleRepository.save(role2);
         roleRepository.save(role3);
+        roleRepository.save(role4);
 
         employeeRepository.save(e1);
         employeeRepository.save(e2);
         employeeRepository.save(e3);
+        employeeRepository.save(e4);
 
         providerRepository.save(pr1);
         providerRepository.save(pr2);
@@ -197,6 +219,10 @@ public class DataLoader implements ApplicationRunner {
         productBaseRepository.save(pb3);
         productBaseRepository.save(pb4);
         productBaseRepository.save(pb5);
+
+        productLogRepository.save(pl1);
+        productLogRepository.save(pl2);
+        productLogRepository.save(pl3);
 
         System.out.println(new Date(System.currentTimeMillis()) + " oop.CourseWork.startdata.DataLoader: Start data successfully loaded.");
     }

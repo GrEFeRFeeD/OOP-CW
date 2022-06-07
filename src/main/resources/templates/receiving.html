@@ -101,7 +101,7 @@
         </table>
       </div>
       <div class="row inner-row">
-        <button class="btn btn-success btn-lg">Save receiving button</button>
+        <button class="btn btn-success btn-lg" th:onclick="if (confirm('Підтвердіть закриття накладної прийому.')) window.open('/receivings/' + [[${receivingId}]] + '/close/', '_self');">Підтвердити факт прийому</button>
       </div>
     </div>
 

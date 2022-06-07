@@ -56,4 +56,15 @@ public class ProductBase {
     public int hashCode() {
         return Objects.hash(id, count, purchasePrice, sellingPrice, product);
     }
+
+    @Override
+    public String toString() {
+        return "ProductBase{" +
+                "id=" + id +
+                ", count=" + count +
+                ", purchasePrice=" + purchasePrice +
+                ", sellingPrice=" + sellingPrice +
+                ", product=" + product.getId() +
+                '}';
+    }
 }

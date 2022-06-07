@@ -4,6 +4,7 @@ import oop.CourseWork.model.check_productBase.CheckProductBase;
 import oop.CourseWork.model.check_productBase.CheckProductBaseRepository;
 import oop.CourseWork.model.employee.Employee;
 import oop.CourseWork.model.employee.EmployeeRepository;
+import oop.CourseWork.model.productLog.ProductLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,12 +20,14 @@ public class CheckService {
     private CheckRepository checkRepository;
     private EmployeeRepository employeeRepository;
     private CheckProductBaseRepository checkProductBaseRepository;
+    private ProductLogService productLogService;
 
     @Autowired
-    public CheckService(CheckRepository checkRepository, EmployeeRepository employeeRepository, CheckProductBaseRepository checkProductBaseRepository) {
+    public CheckService(CheckRepository checkRepository, EmployeeRepository employeeRepository, CheckProductBaseRepository checkProductBaseRepository, ProductLogService productLogService) {
         this.checkRepository = checkRepository;
         this.employeeRepository = employeeRepository;
         this.checkProductBaseRepository = checkProductBaseRepository;
+        this.productLogService = productLogService;
     }
 
     public Check addEmptyAssignedCheck() {
@@ -44,8 +47,8 @@ public class CheckService {
 
     public void closeCheck(Long checkId) {
         Check check = checkRepository.getById(checkId);
+        productLogService.logCheck(check);
         check.setStatus(CheckStatus.CLOSED);
-        //TODO: Logging + ProductBase manipulating
         checkRepository.save(check);
     }
 

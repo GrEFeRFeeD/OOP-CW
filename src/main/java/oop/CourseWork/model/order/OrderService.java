@@ -6,6 +6,7 @@ import oop.CourseWork.model.order_product.OrderProductKey;
 import oop.CourseWork.model.order_product.OrderProductRepository;
 import oop.CourseWork.model.product.Product;
 import oop.CourseWork.model.product.ProductRepository;
+import oop.CourseWork.model.productLog.ProductLogService;
 import oop.CourseWork.model.provider.Provider;
 import oop.CourseWork.model.provider.ProviderRepository;
 import oop.CourseWork.model.receiving.Receiving;
@@ -30,9 +31,10 @@ public class OrderService {
     private OrderProductRepository orderProductRepository;
     private ReceivingRepository receivingRepository;
     private ReceivingProductRepository receivingProductRepository;
+    private ProductLogService productLogService;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, ProviderRepository providerRepository, EmployeeRepository employeeRepository, ProductRepository productRepository, OrderProductRepository orderProductRepository, ReceivingRepository receivingRepository, ReceivingProductRepository receivingProductRepository) {
+    public OrderService(OrderRepository orderRepository, ProviderRepository providerRepository, EmployeeRepository employeeRepository, ProductRepository productRepository, OrderProductRepository orderProductRepository, ReceivingRepository receivingRepository, ReceivingProductRepository receivingProductRepository, ProductLogService productLogService) {
         this.orderRepository = orderRepository;
         this.providerRepository = providerRepository;
         this.employeeRepository = employeeRepository;
@@ -40,6 +42,7 @@ public class OrderService {
         this.orderProductRepository = orderProductRepository;
         this.receivingRepository = receivingRepository;
         this.receivingProductRepository = receivingProductRepository;
+        this.productLogService = productLogService;
     }
 
     private Order addToRepository(Order order, Long providerId) {
@@ -59,6 +62,10 @@ public class OrderService {
         }
 
         return savedOrder;
+    }
+
+    public void addOrder(Order order) {
+        orderRepository.save(order);
     }
 
     public Map<Long, Map<String, Double>> getAllOrderSums() {
@@ -101,6 +108,13 @@ public class OrderService {
         }
         receivingRepository.deleteAll(receivings);
         orderRepository.delete(order);
+    }
+
+    public void closeOrder(Long orderId) {
+        Order order = orderRepository.getById(orderId);
+        productLogService.logOrder(order);
+        order.setStatus(OrderStatus.CLOSED);
+        addOrder(order);
     }
 
 }

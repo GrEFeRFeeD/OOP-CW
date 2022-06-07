@@ -31,6 +31,8 @@ public class Order {
     @Temporal(value = TemporalType.DATE)
     private Date date;
 
+    private OrderStatus status;
+
     @ManyToOne
     @JoinColumn(name = "provider_id")
     private Provider provider;

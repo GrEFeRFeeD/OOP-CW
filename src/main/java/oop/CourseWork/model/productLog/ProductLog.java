@@ -21,11 +21,11 @@ public class ProductLog {
     @Column(name = "log_id")
     private Long id;
 
-    private String type;
+    private ProductLogType type;
     private int count;
     private double price;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
     @ManyToOne

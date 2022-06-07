@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Product base</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <nav style="margin: 20px">
+        <div class="row">
+            <div class="col">
+                <select disabled class="form-select form-select-lg">
+                    <option selected>Усі товари</option>
+                </select>
+            </div>
+
+            <div class="col btn-group">
+                <button class="btn btn-secondary">Назад</button>
+            </div>
+        </div>
+    </nav>
+
+    <hr class="m-auto" align="center" width="98%" >
+
+    <main style="margin: 20px">
+        <div style="overflow:auto; min-height: 600px; max-height: 600px">
+            <table class="table" style="border-collapse: collapse;">
+                <thead style="position: sticky; top: 0; background: #909090; ">
+                    <tr>
+                        <td>Найменування</td>
+                        <td>Кількість</td>
+                        <td>Ціна закупки</td>
+                        <td>Ціна продажу</td>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr th:each="pb : ${productBases}">
+                        <td><span th:text="${pb.product.name}"/></td>
+                        <td><span th:text="${pb.count}"/></td>
+                        <td><span th:text="${#numbers.formatDecimal(pb.purchasePrice, 1, 2, 'POINT')}"/></td>
+                        <td><span th:text="${#numbers.formatDecimal(pb.sellingPrice, 1, 2, 'POINT')}"/></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+</body>
+</html>

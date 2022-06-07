@@ -47,6 +47,7 @@ public class ReceivingController {
 
     @GetMapping(value = "/receivings")
     public String getEmptyPage(Model model){
+
         List<Receiving> receivings = receivingService.getAllReceivings();
         model.addAttribute("receivings", receivings);
 
@@ -58,6 +59,7 @@ public class ReceivingController {
 
     @GetMapping(value = "/receivings", params = {"provider"})
     public String getEmptyPageWithProvider(@RequestParam(name = "provider") Long providerId, Model model){
+
         List<Receiving> receivings = receivingService.getAllReceivings();
         model.addAttribute("receivings", receivings);
 
@@ -75,6 +77,7 @@ public class ReceivingController {
     public String getEmptyPageWithOrder(@RequestParam(name = "provider") Long providerId,
                                         @RequestParam(name = "order") Long orderId,
                                         Model model){
+
         List<Receiving> receivings = receivingService.getAllReceivings();
         model.addAttribute("receivings", receivings);
 
@@ -92,19 +95,9 @@ public class ReceivingController {
         return "receiving";
     }
 
-    @GetMapping("/receivings/new_receiving")
-    public String newReceiving(@RequestParam(name = "order") Long orderId, Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Receiving receiving = new Receiving(null,
-                new Date(System.currentTimeMillis()),
-                orderService.getOrderById(orderId),
-                employeeService.findEmployeeByUsername(authentication.getName()), new HashSet<>());
-        Long receivingId = receivingService.addReceiving(receiving).getId();
-        return "redirect:/receivings/" + receivingId;
-    }
-
     @GetMapping("/receivings/{id}")
     public String getReceiving(@PathVariable(name = "id") Long receivingId, Model model) {
+
         List<Receiving> receivings = receivingService.getAllReceivings();
         model.addAttribute("receivings", receivings);
 
@@ -128,6 +121,9 @@ public class ReceivingController {
         Map<OrderProduct, String> difference = receivingProductService.getReceivingProductOrderProductDifference(orderProducts, receivingProducts);
         model.addAttribute("differenceMap", difference);
         model.addAttribute("differenceKey", difference.keySet());
+
+        model.addAttribute("status", receiving.getStatus());
+
         return "receiving";
     }
 
@@ -135,6 +131,7 @@ public class ReceivingController {
     public String addProduct(@PathVariable(value = "id") Long receivingId,
                              @RequestParam(name = "product") Long productId,
                              Model model) {
+
         if (!productService.isProductExists(productId)) {
             model.addAttribute("inputValue", productId);
             return getReceiving(receivingId, model);
@@ -148,7 +145,27 @@ public class ReceivingController {
     public String editProductCount(@PathVariable(value = "id") Long receivingId,
                                    @RequestParam(name = "product") Long productId,
                                    @RequestParam(name = "count") int count) {
+
         receivingProductService.setReceivingProductCount(receivingId, productId, count);
+        return "redirect:/receivings/" + receivingId;
+    }
+
+    @GetMapping("/receivings/{id}/close")
+    public String closeReceiving(@PathVariable(value = "id") Long receivingId, Model model) {
+
+        receivingService.closeReceiving(receivingId);
+        return "redirect:/receivings/" + receivingId;
+    }
+
+    @GetMapping("/receivings/new_receiving")
+    public String newReceiving(@RequestParam(name = "order") Long orderId, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Receiving receiving = new Receiving(null,
+                new Date(System.currentTimeMillis()),
+                ReceivingStatus.OPEN,
+                orderService.getOrderById(orderId),
+                employeeService.findEmployeeByUsername(authentication.getName()), new HashSet<>());
+        Long receivingId = receivingService.addReceiving(receiving).getId();
         return "redirect:/receivings/" + receivingId;
     }
 

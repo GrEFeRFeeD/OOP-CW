@@ -11,9 +11,7 @@ import oop.CourseWork.model.productLog.ProductLog;
 import oop.CourseWork.model.receiving_product.ReceivingProduct;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "products")
@@ -26,8 +24,12 @@ public class Product {
     @Column(name = "product_id")
     private Long id;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<ProductGroup> groups;
+
     private String name;
     private double price;
+
 
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
@@ -67,9 +69,10 @@ public class Product {
     public String toString() {
         return "Product{" +
                 "id=" + id +
+                ", groups=" + groups +
                 ", name='" + name + '\'' +
                 ", price=" + price +
-                ", productBase=" + productBase.getId() +
+                ", productBase=" + productBase.getId()+
                 '}';
     }
 }

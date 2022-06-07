@@ -27,6 +27,8 @@ public class Receiving {
     @Temporal(TemporalType.DATE)
     private Date date;
 
+    private ReceivingStatus status;
+
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
