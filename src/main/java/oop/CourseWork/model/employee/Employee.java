@@ -24,7 +24,7 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "employee_id")
-    private Long employeeId;
+    private Long id;
 
     @Column(name = "last_name")
     private String lastName;
@@ -34,7 +34,7 @@ public class Employee {
 
     private String patronymic;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", unique = true)
     private String phoneNumber;
 
     private String position;
@@ -86,13 +86,13 @@ public class Employee {
 
     @Override
     public int hashCode() {
-        return Objects.hash(employeeId, lastName, firstName, patronymic, phoneNumber, position, username, password);
+        return Objects.hash(id, lastName, firstName, patronymic, phoneNumber, position, username, password);
     }
 
     @Override
     public String toString() {
         return "Employee{" +
-                "employeeId=" + employeeId +
+                "id=" + id +
                 ", lastName='" + lastName + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", patronymic='" + patronymic + '\'' +
@@ -101,6 +101,11 @@ public class Employee {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", confirmedPassword='" + confirmedPassword + '\'' +
+                ", checks=" + checks +
+                ", orders=" + orders +
+                ", receivings=" + receivings +
+                ", productLogs=" + productLogs +
+                ", roles=" + roles +
                 '}';
     }
 }

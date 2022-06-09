@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://thymeleaf.org ">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>Order list</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+
+    <style>
+        .changed{
+            font-weight: bold;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function() {
+          $("input"). change(function(){
+            $(this).addClass('changed');
+            document.getElementById('submit-button').classList.remove('disabled');
+            document.getElementById('decline-button').classList.remove('disabled');
+          });
+        });
+
+        $(document).ready(function() {
+          $("select"). change(function(){
+            $(this).addClass('changed');
+            document.getElementById('submit-button').classList.remove('disabled');
+            document.getElementById('decline-button').classList.remove('disabled');
+          });
+        });
+    </script>
+</head>
+<body>
+<main style="margin: 20px">
+    <div class="col">
+        <div class="row" style="margin-bottom: 20px;">
+            <form method="post" enctype="multipart/form-data" th:object="${employee}">
+                <div class="row">
+                    <div class="col-9">
+                        <div class="row">
+                            <div class="col">
+                                <div class="row" style="margin-bottom: 5px; margin-top: 5px">
+                                    <div class="col">Прізвище</div>
+                                    <div class="col">
+                                        <input type="text" th:field="*{lastName}" class="form-control" th:value="${lastName}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="row" style="margin-bottom: 5px; margin-top: 5px">
+                                    <div class="col">Ім'я</div>
+                                    <div class="col">
+                                        <input type="text" th:field="*{firstName}" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="row" style="margin-bottom: 5px; margin-top: 5px">
+                                    <div class="col">По батькові</div>
+                                    <div class="col">
+                                        <input type="text" th:field="*{patronymic}" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="row" style="margin-bottom: 5px; margin-top: 5px">
+                                    <div class="col">Номер телефону</div>
+                                    <div class="col">
+                                        <input type="text" th:field="*{phoneNumber}" class="form-control">
+                                        <small class="text-danger" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="row" style="margin-bottom: 5px; margin-top: 5px">
+                                    <div class="col">Посада</div>
+                                    <div class="col">
+                                        <input type="text" th:field="*{position}" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="row" style="margin-bottom: 5px; margin-top: 5px">
+                                    <div class="col">Роль користувача</div>
+                                    <div class="col">
+                                        <select th:field="*{roles}" class="form-control">
+                                            <option th:each="role : ${roles}" th:value="${role.roleId}" th:selected="${roles.contains(role)}"><span th:text="${role.name}"/></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="row" style="margin-bottom: 5px; margin-top: 5px">
+                                    <div class="col">Логін користувача</div>
+                                    <div class="col">
+                                        <input type="text" th:field="*{username}" class="form-control">
+                                        <small class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="row" style="margin-bottom: 5px; margin-top: 5px">
+                                    <div class="col">Пароль користувача</div>
+                                    <div class="col">
+                                        <input type="password" th:field="*{password}" class="form-control">
+                                        <small class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="row" style="margin-bottom: 5px; margin-top: 5px">
+                                    <div class="col">Підтвердіть пароль</div>
+                                    <div class="col">
+                                        <input type="password" th:field="*{confirmedPassword}" class="form-control">
+                                        <small class="text-danger" th:if="${#fields.hasErrors('confirmedPassword')}" th:errors="*{confirmedPassword}"></small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-3">
+                        <div class="d-grid gap-4 col-10 mx-auto">
+                            <input type="submit" value="Зберегти зміни" class="btn btn-success disabled" id="submit-button">
+                            <a type="button" aria-disabled="true" class="btn btn-warning disabled"
+                               th:href="'/employees/' + ${employee.id}" id="decline-button">Скасувати зміни</a>
+                            <a type="button" class="btn btn-danger"
+                               th:onclick="if (confirm('Ви дійсно бажаєте видалити робітника ' + [[${employee.lastName}]] + ' ' + [[${employee.firstName[0]}]] + '. ' [[${employee.patronymic[0]}]] + '. ?')) window.open('/employees/' + [[${employee.id}]] + '/delete', '_self');">Видалити робітника</a>
+                            <a type="button" class="btn btn-secondary" href="/employees/all">Назад</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <hr class="m-auto" align="center" width="98%">
+        <div class="row">
+            <big align="center">Остання активність</big>
+        </div>
+        <hr class="m-auto" align="center" width="98%">
+        <div class="row" style="margin-top: 20px;">
+            <div style="overflow:auto; min-height: 400px; max-height: 400px;">
+                <table class="table" style="border-collapse: collapse;">
+                    <thead style="position: sticky; top: 0; background: #909090; ">
+                        <tr>
+                            <td>Тип</td>
+                            <td>Найменування продукту</td>
+                            <td>Кількість</td>
+                            <td>Ціна</td>
+                            <td>Дата</td>
+                            <td>Робітник</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="pl : ${productLogs}">
+                            <td><span th:text="${pl.type.getNameType()}"/></td>
+                            <td><span th:text="${pl.product.name}"/></td>
+                            <td><span th:text="${pl.count}"/></td>
+                            <td><span th:text="${#numbers.formatDecimal(pl.price, 1, 2, 'POINT')}"/></td>
+                            <td><span th:text="${#dates.format(pl.date, 'dd.MM.yyyy HH:mm:ss')}"/></td>
+                            <td><span th:text="${pl.employee.lastName + ' ' + pl.employee.firstName}"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</main>
+</body>
+</html>

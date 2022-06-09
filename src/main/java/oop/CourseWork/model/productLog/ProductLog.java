@@ -35,4 +35,17 @@ public class ProductLog {
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
+
+    @Override
+    public String toString() {
+        return "ProductLog{" +
+                "id=" + id +
+                ", type=" + type +
+                ", count=" + count +
+                ", price=" + price +
+                ", date=" + date +
+                ", product=" + product.getName() +
+                ", employee=" + employee.getId() +
+                '}';
+    }
 }

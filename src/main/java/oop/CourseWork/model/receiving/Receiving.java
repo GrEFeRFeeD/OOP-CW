@@ -42,4 +42,15 @@ public class Receiving {
     private Set<ReceivingProduct> receivingProducts;
 
     public void addReceivingProduct(ReceivingProduct receivingProduct) { receivingProducts.add(receivingProduct); }
+
+    @Override
+    public String toString() {
+        return "Receiving{" +
+                "id=" + id +
+                ", date=" + date +
+                ", status=" + status +
+                ", order=" + order.getId() +
+                ", employee=" + (employee != null?employee.getId():"null") +
+                '}';
+    }
 }

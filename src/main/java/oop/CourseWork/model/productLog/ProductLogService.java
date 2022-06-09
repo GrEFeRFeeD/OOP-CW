@@ -3,6 +3,7 @@ package oop.CourseWork.model.productLog;
 import oop.CourseWork.model.check.Check;
 import oop.CourseWork.model.check_productBase.CheckProductBase;
 import oop.CourseWork.model.check_productBase.CheckProductBaseRepository;
+import oop.CourseWork.model.employee.Employee;
 import oop.CourseWork.model.order.Order;
 import oop.CourseWork.model.order_product.OrderProduct;
 import oop.CourseWork.model.order_product.OrderProductRepository;
@@ -87,4 +88,6 @@ public class ProductLogService {
             productBaseService.adjustProduct(productLog);
         }
     }
+
+    public List<ProductLog> getProductLogsByEmployee(Employee employee) { return productLogRepository.getProductLogsByEmployee(employee); }
 }

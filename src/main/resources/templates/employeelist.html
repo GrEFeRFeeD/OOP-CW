@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Employees</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var table = $('#employees_table').DataTable();
+            window.selectedValue = null;
+            $('#employees_table tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                    window.selectedValue = null;
+                    document.getElementById('edit-button').classList.add('disabled');
+                    document.getElementById('delete-button').classList.add('disabled');
+                }
+                else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                    window.selectedValue = table.$('tr.selected').find(".id").text();
+                    document.getElementById('edit-button').classList.remove('disabled');
+                    document.getElementById('delete-button').classList.remove('disabled');
+                }
+            });
+        });
+    </script>
+
+    <style>
+        .btn-info{
+            margin: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <main style="margin : 20px">
+        <div class="row">
+            <div class="col-9">
+                <table class="table" id="employees_table">
+                    <thead>
+                    <tr>
+                        <td>#</td>
+                        <td>ПІБ</td>
+                        <td>Номер телефону</td>
+                        <td>Посада</td>
+                        <td>Логін</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="e : ${employees}">
+                            <td class="id"><span th:text="${e.id}"/></td>
+                            <td><span th:text="${e.lastName + ' ' + e.firstName[0] + '. ' + e.patronymic[0] + '.'}"/></td>
+                            <td><span th:text="${e.phoneNumber}"/></td>
+                            <td><span th:text="${e.position}"/></td>
+                            <td><span th:text="${e.username}"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-3">
+                <div class="d-grid gap-4 col-10 mx-auto">
+                    <button class="btn btn-success" onclick="window.open('/employees/new_employee', '_self');">Новий робітник</button>
+                    <button aria-disabled="true" id="edit-button" class="btn btn-warning disabled" onclick="window.open('/employees/' + window.selectedValue, '_self');" >Редагувати</button>
+                    <button aria-disabled="true" id="delete-button" class="btn btn-danger disabled" onclick="if(confirm('Ви дійсно бажаєте видалити запис про робітника №' + window.selectedValue + '?')) window.open('/employees/' + window.selectedValue + '/delete', '_self');">Видалити</button>
+                    <button class="btn btn-secondary">Назад</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
