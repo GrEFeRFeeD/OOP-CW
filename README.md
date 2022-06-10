@@ -20,7 +20,8 @@ Java, Spring, Hibernate, PostgreSQL, Bootstrap, Thymeleaf
 
 <br><br>
 #### UI/UX продукту  - [Посилання на Figma](https://www.figma.com/file/RedTxkPfvIvVLLUdxDhmnj/OOP-CW?node-id=0%3A1) <br>
-#### Беклог продукту - [Посилання на Google Docs](https://docs.google.com/spreadsheets/d/16yxTzO1KasehXI3JCAOZzH2GR46FFQkO_cL4NIKiV5s/edit?usp=sharing)
+#### Загальний беклог продукту - [Посилання на Google Docs](https://docs.google.com/spreadsheets/d/16yxTzO1KasehXI3JCAOZzH2GR46FFQkO_cL4NIKiV5s/edit?usp=sharing)<br>
+#### Поточний беклог / In-process backlog - [Посилання на GitHub Projects / GitHub Projects link](https://github.com/GrEFeRFeeD/OOP-CW/projects)
 <br><br>
 
 ## Бачення системи / Vision of the system
