@@ -9,6 +9,11 @@
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
   <style>
+    .no-padding-please{
+      margin: 0px;
+      padding: 0px;
+    }
+
     .start-col{
       margin: 20px;
     }
@@ -101,16 +106,22 @@
         </table>
       </div>
       <div class="row inner-row">
-        <button class="btn btn-success btn-lg" th:onclick="if (confirm('Підтвердіть закриття накладної прийому.')) window.open('/receivings/' + [[${receivingId}]] + '/close/', '_self');">Підтвердити факт прийому</button>
+        <button th:disabled="${status == T(oop.CourseWork.model.receiving.ReceivingStatus).CLOSED}" class="btn btn-success btn-lg" th:onclick="if (confirm('Підтвердіть закриття накладної прийому.')) window.open('/receivings/' + [[${receivingId}]] + '/close/', '_self');">Підтвердити факт прийому</button>
       </div>
     </div>
 
-    <div class="col start-col">
+    <div class="col start-col ">
       <div class="row inner-row">
-        <select class="form-select" onchange="window.open('/receivings?provider=' + value, '_self');">
-          <option th:value="${providerId}">Оберіть постачальника</option>
-          <option th:each="provider : ${providers}" th:value="${provider.id}" th:selected="${providerId==provider.id}"><span th:text="${provider.name}"/></option>
-        </select>
+        <div class="col no-gutters no-padding-please">
+          <select class="form-select" onchange="window.open('/receivings?provider=' + value, '_self');">
+            <option th:value="${providerId}">Оберіть постачальника</option>
+            <option th:each="provider : ${providers}" th:value="${provider.id}" th:selected="${providerId==provider.id}"><span th:text="${provider.name}"/></option>
+          </select>
+        </div>
+        <div class="col-1 no-padding-please" align="right">
+          <button th:if="${!canManage}" class="btn btn-danger" onclick="if (confirm('Ви дійсно бажаєте завершити сессію?')) window.open('/logout', '_self');">X</button>
+          <button th:if="${canManage}" class="btn btn-secondary" onclick="if (confirm('Перейти назад?')) window.open('/manage_page', '_self');">Назад</button>
+        </div>
       </div>
       <div class="row inner-row">
         <select class="form-select" th:onchange="window.open('/receivings?provider=' + [[${providerId}]] + '&order=' + value, '_self');">

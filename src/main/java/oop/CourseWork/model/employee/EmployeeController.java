@@ -79,7 +79,7 @@ public class EmployeeController {
     public String deleteEmployee(@PathVariable(name = "id") Long employeeId, Model model) {
 
         employeeService.deleteEmployee(employeeId);
-        return "employee";
+        return "redirect:/employees/all";
     }
 
     @GetMapping("/employees/all")

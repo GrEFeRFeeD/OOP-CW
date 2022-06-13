@@ -59,6 +59,9 @@ public class OrderController {
 
     @GetMapping("/orders/{order_id}")
     public String getOrder(@PathVariable(name = "order_id") Long orderId, Model model) {
+
+        orderService.adjustOrderStatus(orderId);
+
         List<OrderProduct> orderProducts = orderProductService.getOrderProductsByOrder(orderId);
         model.addAttribute("order_products", orderProducts);
 
@@ -66,6 +69,7 @@ public class OrderController {
         model.addAttribute("order_id", orderId);
         model.addAttribute("provider_id", order.getProvider().getId());
         model.addAttribute("cur_date", order.getDate());
+        model.addAttribute("status", order.getStatus());
 
         List<Order> orders = orderService.getOrdersByProvider(order.getProvider().getId());
         model.addAttribute("orders", orders);

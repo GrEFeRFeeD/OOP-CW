@@ -1,5 +1,6 @@
 package oop.CourseWork.model.order;
 
+import oop.CourseWork.model.employee.Employee;
 import oop.CourseWork.model.employee.EmployeeRepository;
 import oop.CourseWork.model.order_product.OrderProduct;
 import oop.CourseWork.model.order_product.OrderProductKey;
@@ -19,7 +20,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class OrderService {
@@ -115,6 +120,30 @@ public class OrderService {
         productLogService.logOrder(order);
         order.setStatus(OrderStatus.CLOSED);
         addOrder(order);
+    }
+
+    public void nullifyEmployee(Employee employee) {
+        List<Order> orders = orderRepository.findAll();
+        for (Order o : orders) {
+            if (o.getEmployee() != null && o.getEmployee().getId().equals(employee.getId())) {
+                o.setEmployee(null);
+                orderRepository.save(o);
+            }
+        }
+    }
+
+    public void adjustOrderStatus(Long orderId) {
+        Order order = orderRepository.getById(orderId);
+        if (order.getStatus() != OrderStatus.OPEN) {
+            return;
+        }
+
+        long diffInMills = Math.abs(System.currentTimeMillis() - order.getDate().getTime());
+        long diff = TimeUnit.DAYS.convert(diffInMills, TimeUnit.MILLISECONDS);
+        if (diff > 1) {
+            order.setStatus(OrderStatus.PARTLY_EDITABLE);
+            orderRepository.save(order);
+        }
     }
 
 }

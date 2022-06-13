@@ -4,6 +4,7 @@ import oop.CourseWork.model.check_productBase.CheckProductBase;
 import oop.CourseWork.model.check_productBase.CheckProductBaseRepository;
 import oop.CourseWork.model.employee.Employee;
 import oop.CourseWork.model.employee.EmployeeRepository;
+import oop.CourseWork.model.order.Order;
 import oop.CourseWork.model.productLog.ProductLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -86,5 +87,15 @@ public class CheckService {
         Employee employee = employeeRepository.findEmployeeByUsername(authentication.getName());
         List<Check> activeChecks = findByEmployeeAndCheckStatus(employee, CheckStatus.OPEN);
         return (int) activeChecks.stream().filter(o -> !isCheckEmpty(o.getId())).count();
+    }
+
+    public void nullifyEmployee(Employee employee) {
+        List<Check> checks = checkRepository.findAll();
+        for (Check c : checks) {
+            if (c.getEmployee() != null && c.getEmployee().getId().equals(employee.getId())) {
+                c.setEmployee(null);
+                checkRepository.save(c);
+            }
+        }
     }
 }

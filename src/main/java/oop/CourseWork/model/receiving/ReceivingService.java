@@ -1,5 +1,7 @@
 package oop.CourseWork.model.receiving;
 
+import oop.CourseWork.model.employee.Employee;
+import oop.CourseWork.model.order.Order;
 import oop.CourseWork.model.order.OrderRepository;
 import oop.CourseWork.model.order.OrderService;
 import oop.CourseWork.model.order.OrderStatus;
@@ -48,6 +50,16 @@ public class ReceivingService {
 
         if (receiving.getOrder().getStatus() != OrderStatus.CLOSED) {
             orderService.closeOrder(receiving.getOrder().getId());
+        }
+    }
+
+    public void nullifyEmployee(Employee employee) {
+        List<Receiving> receivings = receivingRepository.findAll();
+        for (Receiving r : receivings) {
+            if (r.getEmployee() != null && r.getEmployee().getId().equals(employee.getId())) {
+                r.setEmployee(null);
+                receivingRepository.save(r);
+            }
         }
     }
 }

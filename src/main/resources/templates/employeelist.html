@@ -73,7 +73,7 @@
                     <button class="btn btn-success" onclick="window.open('/employees/new_employee', '_self');">Новий робітник</button>
                     <button aria-disabled="true" id="edit-button" class="btn btn-warning disabled" onclick="window.open('/employees/' + window.selectedValue, '_self');" >Редагувати</button>
                     <button aria-disabled="true" id="delete-button" class="btn btn-danger disabled" onclick="if(confirm('Ви дійсно бажаєте видалити запис про робітника №' + window.selectedValue + '?')) window.open('/employees/' + window.selectedValue + '/delete', '_self');">Видалити</button>
-                    <button class="btn btn-secondary">Назад</button>
+                    <button class="btn btn-secondary" onclick="window.open('/admin', '_self');">Назад</button>
                 </div>
             </div>
         </div>

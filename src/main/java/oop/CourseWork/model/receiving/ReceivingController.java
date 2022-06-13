@@ -54,6 +54,10 @@ public class ReceivingController {
         List<Provider> providers = providerService.getAllProviders();
         model.addAttribute("providers", providers);
 
+        model.addAttribute("status", ReceivingStatus.CLOSED);
+
+        model.addAttribute("canManage", employeeService.canCurrentEmployeeDoManage());
+
         return "receiving";
     }
 
@@ -69,6 +73,10 @@ public class ReceivingController {
 
         List<Order> orders = orderService.getOrdersByProvider(providerId);
         model.addAttribute("orders", orders);
+
+        model.addAttribute("status", ReceivingStatus.CLOSED);
+
+        model.addAttribute("canManage", employeeService.canCurrentEmployeeDoManage());
 
         return "receiving";
     }
@@ -91,6 +99,10 @@ public class ReceivingController {
 
         List<OrderProduct> orderProducts = orderProductService.getOrderProductsByOrder(orderId);
         model.addAttribute("orderProducts", orderProducts);
+
+        model.addAttribute("status", ReceivingStatus.CLOSED);
+
+        model.addAttribute("canManage", employeeService.canCurrentEmployeeDoManage());
 
         return "receiving";
     }
@@ -123,6 +135,8 @@ public class ReceivingController {
         model.addAttribute("differenceKey", difference.keySet());
 
         model.addAttribute("status", receiving.getStatus());
+
+        model.addAttribute("canManage", employeeService.canCurrentEmployeeDoManage());
 
         return "receiving";
     }

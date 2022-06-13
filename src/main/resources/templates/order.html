@@ -122,9 +122,9 @@
                 <tr th:each="order_product : ${order_products}">
                     <input type="hidden" name="productId[]" th:value="${order_product.id.productId}">
                     <td><span th:text="${order_product.productObj.name}" /></td>
-                    <td><input type="number" name="balance[]" th:value="${order_product.balance}" class="form-control input"></td>
-                    <td><input type="number" name="order[]" th:value="${order_product.order}" class="form-control input ord-input"></td>
-                    <td><input type="number" name="return[]" th:value="${order_product.retrn}" class="form-control input ret-input"></td>
+                    <td><input th:disabled="${status == T(oop.CourseWork.model.order.OrderStatus).PARTLY_EDITABLE || status == T(oop.CourseWork.model.order.OrderStatus).CLOSED}" type="number" name="balance[]" th:value="${order_product.balance}" class="form-control input"></td>
+                    <td><input th:disabled="${status == T(oop.CourseWork.model.order.OrderStatus).PARTLY_EDITABLE || status == T(oop.CourseWork.model.order.OrderStatus).CLOSED}" type="number" name="order[]" th:value="${order_product.order}" class="form-control input ord-input"></td>
+                    <td><input th:disabled="${status == T(oop.CourseWork.model.order.OrderStatus).CLOSED}" type="number" name="return[]" th:value="${order_product.retrn}" class="form-control input ret-input"></td>
                     <td><span th:text="${order_product.productObj.price}" class="price-span"/></td>
                     <td><span th:text="${#numbers.formatDecimal((order_product.order * order_product.productObj.price), 1, 2, 'POINT')}"></td>
                 </tr>

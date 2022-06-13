@@ -46,7 +46,7 @@
             <div class="col">
                 <div class="row" style="margin-top: 45px">
                     <div class="col btn-group">
-                        <button class="btn btn-secondary">Назад</button>
+                        <button class="btn btn-secondary" onclick="window.open('/admin', '_self');">Назад</button>
                     </div>
                 </div>
             </div>
@@ -77,7 +77,7 @@
                     <td><span th:text="${pl.count}"/></td>
                     <td><span th:text="${#numbers.formatDecimal(pl.price, 1, 2, 'POINT')}"/></td>
                     <td><span th:text="${#dates.format(pl.date, 'dd.MM.yyyy HH:mm:ss')}"/></td>
-                    <td><span th:text="${pl.employee.lastName + ' ' + pl.employee.firstName}"/></td>
+                    <td><span th:text="${pl.employee==null}?'':${(pl.employee.lastName + ' ' + pl.employee.firstName)}"/></td>
                 </tr>
             </tbody>
         </table>

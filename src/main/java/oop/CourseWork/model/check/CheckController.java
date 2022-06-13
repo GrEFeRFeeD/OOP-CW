@@ -64,6 +64,9 @@ public class CheckController {
         model.addAttribute("closable", !checkService.isCheckEmpty(checkId));
         model.addAttribute("declinable", !checkService.isCheckEmpty(checkId) ||
                 checkService.getCurrentEmployeeActiveChecksCount() > 1);
+
+        model.addAttribute("canManage", employeeService.canCurrentEmployeeDoManage());
+
         return "check";
     }
 
@@ -117,6 +120,10 @@ public class CheckController {
     public String declineAll() {
 
         checkService.declineAllCurrentEmployeeActiveChecks();
+
+        if (employeeService.canCurrentEmployeeDoManage()) {
+            return "redirect:/manage_page";
+        }
 
         return "redirect:/logout";
     }

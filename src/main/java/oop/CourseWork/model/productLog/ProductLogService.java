@@ -90,4 +90,14 @@ public class ProductLogService {
     }
 
     public List<ProductLog> getProductLogsByEmployee(Employee employee) { return productLogRepository.getProductLogsByEmployee(employee); }
+
+    public void nullifyEmployee(Employee employee) {
+        List<ProductLog> productLogs = productLogRepository.findAll();
+        for (ProductLog p : productLogs) {
+            if (p.getEmployee() != null && p.getEmployee().getId().equals(employee.getId())) {
+                p.setEmployee(null);
+                productLogRepository.save(p);
+            }
+        }
+    }
 }

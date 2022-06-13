@@ -63,7 +63,8 @@
                 }
             </script>
             <div class="col-2" align="right">
-                <button class="btn btn-danger btn-square-md btn-lg" onclick="closeButtonFun();">X</button>
+                <button th:if="${!canManage}" class="btn btn-danger btn-square-md btn-lg" onclick="closeButtonFun();">X</button>
+                <button th:if="${canManage}" class="btn btn-secondary" onclick="if (confirm('Перейти назад?')) window.open('/checks/decline_all', '_self');">Назад</button>
             </div>
         </div>
 
