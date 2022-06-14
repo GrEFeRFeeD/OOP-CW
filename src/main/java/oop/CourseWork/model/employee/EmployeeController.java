@@ -4,14 +4,12 @@ import oop.CourseWork.model.productLog.ProductLog;
 import oop.CourseWork.model.productLog.ProductLogService;
 import oop.CourseWork.model.role.Role;
 import oop.CourseWork.model.role.RoleService;
+import oop.CourseWork.security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 import java.util.List;
@@ -23,13 +21,15 @@ public class EmployeeController {
     private EmployeeValidator employeeValidator;
     private RoleService roleService;
     private ProductLogService productLogService;
+    private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService, EmployeeValidator employeeValidator, RoleService roleService, ProductLogService productLogService) {
+    public EmployeeController(EmployeeService employeeService, EmployeeValidator employeeValidator, RoleService roleService, ProductLogService productLogService, UserDetailsServiceImpl userDetailsService) {
         this.employeeService = employeeService;
         this.employeeValidator = employeeValidator;
         this.roleService = roleService;
         this.productLogService = productLogService;
+        this.userDetailsService = userDetailsService;
     }
 
     @GetMapping("/employees")
@@ -99,4 +99,19 @@ public class EmployeeController {
 
         return "redirect:/employees/" + employee.getId();
     }
+
+    @GetMapping("/login")
+    public String getLoginPage(String error, String logout, Model model) {
+
+        if (error != null) {
+            model.addAttribute("error", "Bad credentials.");
+        }
+
+        if (logout != null) {
+            model.addAttribute("message", "Logged out successfully.");
+        }
+
+        return "login";
+    }
+
 }
