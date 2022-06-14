@@ -21,15 +21,13 @@ public class EmployeeController {
     private EmployeeValidator employeeValidator;
     private RoleService roleService;
     private ProductLogService productLogService;
-    private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService, EmployeeValidator employeeValidator, RoleService roleService, ProductLogService productLogService, UserDetailsServiceImpl userDetailsService) {
+    public EmployeeController(EmployeeService employeeService, EmployeeValidator employeeValidator, RoleService roleService, ProductLogService productLogService) {
         this.employeeService = employeeService;
         this.employeeValidator = employeeValidator;
         this.roleService = roleService;
         this.productLogService = productLogService;
-        this.userDetailsService = userDetailsService;
     }
 
     @GetMapping("/employees")

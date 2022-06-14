@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${isAdmin}?'Admin':'Manager'"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+    <main style="margin: 20px">
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <div class="col d-grid">
+                        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Нове замовлення
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" th:each="provider : ${providers}" th:href="'/orders/new_order?provider=' + ${provider.id}"><span th:text="${provider.name}"/></a>
+                        </div>
+                    </div>
+                    <div class="col d-grid">
+                        <button class="btn btn-info" onclick="window.open('/orders', '_self');">Перейти до списку замовлень</button>
+                    </div>
+                </div>
+
+
+                <div style="overflow:auto; min-height: 275px; max-height: 275px; margin-top: 10px;">
+                    <div class="text-center">Замовлення за останній тиждень</div>
+                    <table id="orderTable" class="table">
+                        <thead style="position: sticky; top: 0; background: #909090; ">
+                            <tr>
+                                <td>#</td>
+                                <td>Дата</td>
+                                <td>Постачальник</td>
+                                <td>Сума зам.</td>
+                                <td>Сума пов.</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="order : ${orders}" >
+                                <td class="id"><span th:text="${order.id}"/></td>
+                                <td><span th:text="${#dates.format(order.date, 'dd.MM.yyyy')}"/></td>
+                                <td><span th:text="${order.provider.name}"/></td>
+                                <td><span th:text="${#numbers.formatDecimal(orderSums.get(order.id).get('products'), 1, 2, 'POINT')}"/></td>
+                                <td><span th:text="${#numbers.formatDecimal(orderSums.get(order.id).get('returns'), 1, 2, 'POINT')}"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row" style="margin-bottom: 10px; position: relative; left: 95%">
+                    <div class="col">
+                        <button class="btn btn-lg btn-square btn-danger" onclick="if (confirm('Бажаєте завершити сессію?')) window.open('/logout', '_self')">X</button>
+                    </div>
+
+                </div>
+                <div class="row d-grid gap-3">
+                    <button class="btn btn-warning btn-lg" onclick="window.open('/checks', '_self');">Перейти до каси</button>
+                    <button th:if="${isAdmin}" class="btn btn-info btn-lg" onclick="window.open('/employees', '_self');">Перейти до списку робітників</button>
+                    <button th:if="${isAdmin}" class="btn btn-secondary btn-lg" onclick="window.open('/productbase', '_self');">Перейти до бази продуктів</button>
+                    <button th:if="${isAdmin}" class="btn btn-secondary btn-lg" onclick="window.open('/productlog', '_self');">Перейти до журналу обліку</button>
+                </div>
+            </div>
+        </div>
+        <hr class="m-auto" align="center" width="98%">
+        <div class="row" style="margin-top: 10px">
+            <div class="col d-grid">
+                <button class="btn btn-info" onclick="window.open('/receivings', '_self');">Перейти до отримань</button>
+
+                <div style="overflow:auto; min-height: 275px; max-height: 275px; margin-top: 10px;">
+                    <div class="text-center">Отримання за останній тиждень</div>
+                    <table id="receivingTable" class="table">
+                        <thead style="position: sticky; top: 0; background: #909090; ">
+                        <tr>
+                            <td>#</td>
+                            <td>Дата</td>
+                            <td>№ Замовлення</td>
+                            <td>Відповідальний</td>
+                            <td>Сума пов.</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="receiving : ${receivings}" >
+                                <td><span th:text="${receiving.id}"/></td>
+                                <td><span th:text="${#dates.format(receiving.date, 'dd.MM.yyyy')}"/></td>
+                                <td><span th:text="${receiving.order.id}"/></td>
+                                <td><span th:text="${receiving.employee!=null}?${receiving.employee.lastName + ' ' + receiving.employee.firstName[0] + '. ' + receiving.employee.patronymic[0] + '.'}:''"/></td>
+                                <td><span th:text="${#numbers.formatDecimal(receivingSums.get(receiving.id), 1, 2, 'POINT')}"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+             </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

@@ -86,7 +86,7 @@ public class DataLoader implements ApplicationRunner {
 
         Employee e1 = new Employee(null, "Пригорченко", "Василь", "Миколайович", "+380964444444", "Менеджер", "manager1", securityConfig.passwordEncoder().encode("bebebe"), "bebebe", new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>());
         Employee e2 = new Employee(null, "Голослівна", "Олена", "Петрівна", "+380965555555", "Касир", "cashier1", securityConfig.passwordEncoder().encode("bebebe"), "bebebe", new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>());
-        Employee e3 = new Employee(null, "Незабудько", "Грегор", "Модемович", "+380966666666", "Прийомщик", "receivier1", securityConfig.passwordEncoder().encode("bebebe"), "bebebe", new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>());
+        Employee e3 = new Employee(null, "Незабудько", "Грегор", "Модемович", "+380966666666", "Прийомщик", "receiver1", securityConfig.passwordEncoder().encode("bebebe"), "bebebe", new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>());
         Employee e4 = new Employee(null, "Чаїна", "Юлія", "Григоріївна", "+380911111111", "Адміністратор", "admin1", securityConfig.passwordEncoder().encode("bebebe"), "bebebe", new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>());
         e1.addRole(role1);
         role1.addEmployee(e1);
@@ -127,7 +127,7 @@ public class DataLoader implements ApplicationRunner {
         o1.addOrderBody(op22);
         pt5.addProductBody(op22);
 
-        Receiving r1 = new Receiving(null, null, ReceivingStatus.OPEN, o1, null, new HashSet<>());
+        Receiving r1 = new Receiving(null, new Date(System.currentTimeMillis()), ReceivingStatus.OPEN, o1, null, new HashSet<>());
         o1.addReceiving(r1);
 
         Check c1 = new Check(null, new Date(System.currentTimeMillis()), CheckStatus.CLOSED, e2, new HashSet<>());

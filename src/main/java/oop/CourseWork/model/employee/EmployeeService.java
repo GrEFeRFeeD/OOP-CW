@@ -76,4 +76,10 @@ public class EmployeeService{
         return employee.getRoles().contains(roleService.getRoleByName("ROLE_MANAGER")) ||
                 employee.getRoles().contains(roleService.getRoleByName("ROLE_ADMIN"));
     }
+
+    public boolean isCurrentEmployeeAdmin() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Employee employee = findEmployeeByUsername(authentication.getName());
+        return employee.getRoles().contains(roleService.getRoleByName("ROLE_ADMIN"));
+    }
 }

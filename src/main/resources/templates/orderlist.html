@@ -124,7 +124,7 @@
                 <a id="show-button" th:if="${!orders.isEmpty()}" aria-disabled="true" type="button" role="button" class="btn btn-info disabled" onclick="alert('You have opened the file!');">Переглянути файли</a>
                 <a id="edit-button" th:if="${!orders.isEmpty()}" aria-disabled="true" type="button" role="button" class="btn btn-warning disabled" onclick="window.open('/orders/' + window.selectedValue, '_self');">Редагувати</a>
                 <a id="delete-button" th:if="${!orders.isEmpty()}" aria-disabled="true" type="button" role="button" class="btn btn-danger disabled" onclick="if (confirm('Ви дійсно бажаєте видалити замовлення №' + window.selectedValue + '?')) window.open('/orders/' + window.selectedValue + '/delete', '_self');">Видалити</a>
-                <a type="button" class="btn btn-secondary" onclick="window.open('/manage_page', 'self_');">Назад</a>
+                <a type="button" class="btn btn-secondary" onclick="window.open('/manage_page', '_self');">Назад</a>
             </div>
         </div>
     </div>

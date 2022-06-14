@@ -33,17 +33,15 @@ public class PostLoginRedirectController {
             return "index";
         }
         Set<Role> roles = employee.getRoles();
-        if (roles.contains(roleService.getRoleByName("ROLE_ADMIN"))) {
-            return "adminpage";
-        }
-        if (roles.contains(roleService.getRoleByName("ROLE_MANAGER"))) {
-            return "managerpage";
+        if (roles.contains(roleService.getRoleByName("ROLE_ADMIN"))
+                || roles.contains(roleService.getRoleByName("ROLE_MANAGER")))  {
+            return "redirect:/manage_page";
         }
         if (roles.contains(roleService.getRoleByName("ROLE_RECEIVER"))) {
-            return "receiving";
+            return "redirect:/receivings";
         }
         if (roles.contains(roleService.getRoleByName("ROLE_CASHIER"))) {
-            return "check";
+            return "redirect:/checks";
         }
         return "index";
     }

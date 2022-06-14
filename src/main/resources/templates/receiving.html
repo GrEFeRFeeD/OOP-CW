@@ -77,7 +77,7 @@
         <button disabled class="btn btn-info">Додати накладну постачальника</button>
       </div>
       <div class="row inner-row">
-        <input id="product-input" type="number" class="form-control" th:value="${inputValue}" onchange="inputActivated();">
+        <input th:disabled="${status == T(oop.CourseWork.model.receiving.ReceivingStatus).CLOSED}" id="product-input" type="number" class="form-control" th:value="${inputValue}" onchange="inputActivated();">
       </div>
       <div class="row inner-row" style="overflow:auto; min-height: 485px; max-height: 485px">
         <table class="table" style="border-collapse: collapse;">
@@ -93,7 +93,7 @@
             <tr th:each="receivingProduct : ${receivingProducts}">
               <td><span th:text="${receivingProduct.product.id}"/></td>
               <td><span th:text="${receivingProduct.product.name}"/></td>
-              <td><input class="form-control count-input" type="number" th:value="${receivingProduct.count}" th:onchange="window.open('/receivings/' + [[${receivingId}]]  + '?product=' + [[${receivingProduct.product.id}]] + '&count=' + value, '_self');"></td>
+              <td><input th:disabled="${status == T(oop.CourseWork.model.receiving.ReceivingStatus).CLOSED}" class="form-control count-input" type="number" th:value="${receivingProduct.count}" th:onchange="window.open('/receivings/' + [[${receivingId}]]  + '?product=' + [[${receivingProduct.product.id}]] + '&count=' + value, '_self');"></td>
               <td><span th:text="${receivingProduct.price}" class="receiving-price-span"/></td>
             </tr>
           </tbody>
