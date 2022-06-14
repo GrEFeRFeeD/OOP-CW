@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -62,6 +64,23 @@ public class ManagePageController {
         model.addAttribute("receivingSums", receivingSums);
 
         return "managepage";
+    }
+
+    @GetMapping("/manage_page/new_provider")
+    public String addNewProvider(@RequestParam String name,
+                                 @RequestParam String email,
+                                 @RequestParam String phoneNumber) {
+
+        Provider provider = new Provider(null, name, email, phoneNumber, new HashSet<>());
+        providerService.addProvider(provider);
+        return "redirect:/manage_page";
+    }
+
+    @GetMapping("/manage_page/delete_provider")
+    public String deleteProvider(@RequestParam(name = "id") Long providerId) {
+
+        providerService.deleteProvider(providerId);
+        return "redirect:/manage_page";
     }
 
 }

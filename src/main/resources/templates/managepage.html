@@ -47,7 +47,7 @@
                             <tr th:each="order : ${orders}" >
                                 <td class="id"><span th:text="${order.id}"/></td>
                                 <td><span th:text="${#dates.format(order.date, 'dd.MM.yyyy')}"/></td>
-                                <td><span th:text="${order.provider.name}"/></td>
+                                <td><span th:text="${order.provider != null}?${order.provider.name}:''"/></td>
                                 <td><span th:text="${#numbers.formatDecimal(orderSums.get(order.id).get('products'), 1, 2, 'POINT')}"/></td>
                                 <td><span th:text="${#numbers.formatDecimal(orderSums.get(order.id).get('returns'), 1, 2, 'POINT')}"/></td>
                             </tr>
@@ -72,7 +72,7 @@
         </div>
         <hr class="m-auto" align="center" width="98%">
         <div class="row" style="margin-top: 10px">
-            <div class="col d-grid">
+            <div th:class="${isAdmin}?'col-6 d-grid':'col d-grid'">
                 <button class="btn btn-info" onclick="window.open('/receivings', '_self');">Перейти до отримань</button>
 
                 <div style="overflow:auto; min-height: 275px; max-height: 275px; margin-top: 10px;">
@@ -84,7 +84,7 @@
                             <td>Дата</td>
                             <td>№ Замовлення</td>
                             <td>Відповідальний</td>
-                            <td>Сума пов.</td>
+                            <td>Сума</td>
                         </tr>
                         </thead>
                         <tbody>
@@ -99,6 +99,53 @@
                     </table>
                 </div>
              </div>
+                <div th:if="${isAdmin}" class="col-6">
+                    <div class="row">
+                        <div class="col">
+                            <div class="d-grid">
+                                <script>
+                                    function addNewProvider() {
+                                        let name = prompt('Введіть назву компанії-постачальника.');
+                                        if (name == null) return;
+                                        let email = prompt('Введіть електронну пошту компанії-постачальника');
+                                        if (email == null) return;
+                                        let phoneNumber = prompt('Введіть номер телефону компанії-постачальника');
+                                        if (phoneNumber == null) return;
+                                        window.open('/manage_page/new_provider?name=' + name + '&email=' + email + '&phoneNumber=' + phoneNumber, '_self');
+                                    }
+                                </script>
+                                <button class="btn btn-success" onclick="addNewProvider();">Додати постачальника</button>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="d-grid">
+                                <button class="btn btn-danger" onclick="let id = prompt('Введіть id постачальника для видалення'); if (id != null) window.open('/manage_page/delete_provider?id=' + id, '_self');">Видалити постачальника</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="overflow:auto; min-height: 275px; max-height: 275px; margin-top: 10px;">
+                        <div class="text-center">Постачальники</div>
+                        <table class="table">
+                            <thead style="position: sticky; top: 0; background: #909090; ">
+                                <tr>
+                                    <td>#</td>
+                                    <td>Назва</td>
+                                    <td>Email</td>
+                                    <td>Телефон</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="provider : ${providers}">
+                                    <td><span th:text="${provider.id}"/></td>
+                                    <td><span th:text="${provider.name}"/></td>
+                                    <td><span th:text="${provider.email}"/></td>
+                                    <td><span th:text="${provider.phoneNumber}"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </main>

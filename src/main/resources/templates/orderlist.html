@@ -103,7 +103,7 @@
                 <tr th:each="order : ${orders}" >
                     <td class="id"><span th:text="${order.id}"/></td>
                     <td><span th:text="${#dates.format(order.date, 'dd.MM.yyyy')}"/></td>
-                    <td><span th:text="${order.provider.name}"/></td>
+                    <td><span th:text="${order.provider != null}?${order.provider.name}:''"/></td>
                     <td><span th:text="${#numbers.formatDecimal(orderSums.get(order.id).get('products'), 1, 2, 'POINT')}"/></td>
                     <td><span th:text="${#numbers.formatDecimal(orderSums.get(order.id).get('returns'), 1, 2, 'POINT')}"/></td>
                 </tr>

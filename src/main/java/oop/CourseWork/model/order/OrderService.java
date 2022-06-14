@@ -146,4 +146,14 @@ public class OrderService {
         }
     }
 
+    public void nullifyProvider(Provider provider) {
+        List<Order> orders = orderRepository.findByProvider(provider);
+        for (Order o : orders) {
+            if (o.getProvider() != null && o.getProvider().getId().equals(provider.getId())) {
+                o.setProvider(null);
+                orderRepository.save(o);
+            }
+        }
+    }
+
 }
