@@ -60,6 +60,40 @@
             orderSum += orderPrices[i].textContent*parseInt(orders[i].textContent);
           }
           document.getElementById('order-sum').innerHTML = Number(orderSum).toFixed(2);
+
+          let subtractYellowPrices = document.getElementsByClassName('subtract-price yellow'),
+              subtractsYellow = document.getElementsByClassName('subtract-count yellow'),
+              subtractRedPrices = document.getElementsByClassName('subtract-price red'),
+              subtractsRed = document.getElementsByClassName('subtract-count red'),
+              subtractOrangePrices = document.getElementsByClassName('subtract-price orange'),
+              subtractsOrange = document.getElementsByClassName('subtract-count orange'),
+              subtractLightbluePrices = document.getElementsByClassName('subtract-price lightblue'),
+              subtractsLightBlue = document.getElementsByClassName('subtract-count lightblue');
+
+          let yellowElSum = 0, redElSum = 0, orangeElSum = 0, lightblueElSum = 0;
+
+          for (let i = 0; i < subtractYellowPrices.length; i++) {
+            yellowElSum += subtractYellowPrices[i].textContent*parseInt(subtractsYellow[i].textContent);
+          }
+
+          for (let i = 0; i < subtractRedPrices.length; i++) {
+            redElSum += subtractRedPrices[i].textContent*parseInt(subtractsRed[i].textContent);
+          }
+
+          for (let i = 0; i < subtractOrangePrices.length; i++) {
+            orangeElSum += subtractOrangePrices[i].textContent*parseInt(subtractsOrange[i].textContent);
+          }
+
+          for (let i = 0; i < subtractLightbluePrices.length; i++) {
+            lightblueElSum += subtractLightbluePrices[i].textContent*parseInt(subtractsLightBlue[i].textContent);
+          }
+
+          document.getElementById('subtract-sum-pre').innerText = Number(orderSum).toFixed(2);
+          document.getElementById('subtract-sum-yellow').innerText = '- (' + Number(yellowElSum).toFixed(2) + ') ';
+          document.getElementById('subtract-sum-red').innerText = '- (' + Number(redElSum).toFixed(2) + ') ';
+          document.getElementById('subtract-sum-orange').innerText = '+ (' + Number(orangeElSum).toFixed(2) + ') ';
+          document.getElementById('subtract-sum-lightblue').innerText = '+ (' + Number(lightblueElSum).toFixed(2) + ')';
+          document.getElementById('subtract-sum').innerText = Number(orderSum - yellowElSum - redElSum + orangeElSum + lightblueElSum).toFixed(2);
       });
     </script>
 </head>
@@ -175,14 +209,21 @@
             <tr th:each="dif : ${differenceKey}" th:style="'background: ' + ${differenceMap.get(dif)}">
               <td><span th:text="${dif.productObj.id}" /></td>
               <td><span th:text="${dif.productObj.name}"/></td>
-              <td><span th:text="${dif.order}"/></td>
-              <td><span th:text="${dif.productObj.price}"/></td>
+              <td><span th:text="${dif.order}" th:class="'subtract-count ' + ${differenceMap.get(dif)}"/></td>
+              <td><span th:text="${dif.productObj.price}" th:class="'subtract-price ' + ${differenceMap.get(dif)}"/></td>
             </tr>
           </tbody>
           <tfoot style="position: sticky; bottom: 0;  background: #909090; ">
             <tr>
-              <td colspan="3">Усього:</td>
-              <td><span id="subtract-sum">0</span></td>
+              <td>Усього:</td>
+              <td colspan="2" style="text-align: right;">
+                <span id="subtract-sum-pre"></span>
+                <span style="color: yellow;" id="subtract-sum-yellow"></span>
+                <span style="color: red;" id="subtract-sum-red"></span>
+                <span style="color: orange;" id="subtract-sum-orange"></span>
+                <span style="color: lightblue;" id="subtract-sum-lightblue"></span>
+                <span> =</span></td>
+              <td><span id="subtract-sum"></span></td>
             </tr>
           </tfoot>
         </table>

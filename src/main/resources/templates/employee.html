@@ -138,7 +138,7 @@
                             <a type="button" aria-disabled="true" class="btn btn-warning disabled"
                                th:href="'/employees/' + ${employee.id}" id="decline-button">Скасувати зміни</a>
                             <a type="button" class="btn btn-danger"
-                               th:onclick="if (confirm('Ви дійсно бажаєте видалити робітника ' + [[${employee.lastName}]] + ' ' + [[${employee.firstName[0]}]] + '. ' [[${employee.patronymic[0]}]] + '. ?')) window.open('/employees/' + [[${employee.id}]] + '/delete', '_self');">Видалити робітника</a>
+                               th:onclick="if (confirm('Ви дійсно бажаєте видалити робітника №' + [[${employee.id}]] + '?')) window.open('/employees/' + [[${employee.id}]] + '/delete', '_self');">Видалити робітника</a>
                             <a type="button" class="btn btn-secondary" href="/employees/all">Назад</a>
                         </div>
                     </div>

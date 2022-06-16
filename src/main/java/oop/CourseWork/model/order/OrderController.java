@@ -113,15 +113,18 @@ public class OrderController {
                             @RequestParam(value = "return[]") List<Integer> returnList,
                             Model model) {
 
-        List<OrderProduct> orderProductList = new ArrayList<>();
         Iterator<Integer> balanceIterator = balanceList.iterator();
         Iterator<Integer> orderIterator = orderList.iterator();
         Iterator<Integer> returnIterator = returnList.iterator();
         for (Long productId: productIdList) {
             OrderProduct o = orderProductService.getOrderProductById(orderId, productId);
-            o.setBalance(balanceIterator.next());
-            o.setOrder(orderIterator.next());
-            o.setRetrn(returnIterator.next());
+
+            Integer currentValue = balanceIterator.next();
+            o.setBalance(currentValue == null ? 0 : currentValue);
+            currentValue = orderIterator.next();
+            o.setOrder(currentValue == null ? 0 : currentValue);
+            currentValue = returnIterator.next();
+            o.setRetrn(currentValue == null ? 0 : currentValue);
             orderProductService.addOrderProduct(o);
         }
         return "redirect:/orders/" + orderId;

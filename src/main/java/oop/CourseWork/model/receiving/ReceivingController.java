@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class ReceivingController {
@@ -97,7 +98,8 @@ public class ReceivingController {
         model.addAttribute("orders", orders);
         model.addAttribute("orderId", orderId);
 
-        List<OrderProduct> orderProducts = orderProductService.getOrderProductsByOrder(orderId);
+        List<OrderProduct> orderProducts = orderProductService.getOrderProductsByOrder(orderId)
+                .stream().filter(op -> op.getOrder() != 0).collect(Collectors.toList());
         model.addAttribute("orderProducts", orderProducts);
 
         model.addAttribute("status", ReceivingStatus.CLOSED);
@@ -124,7 +126,9 @@ public class ReceivingController {
         model.addAttribute("orderId", receiving.getOrder().getId());
         model.addAttribute("receivingId", receivingId);
 
-        List<OrderProduct> orderProducts = orderProductService.getOrderProductsByOrder(receiving.getOrder().getId());
+        List<OrderProduct> orderProducts = orderProductService.getOrderProductsByOrder(receiving.getOrder().getId())
+                .stream().filter(op -> op.getOrder() != 0).collect(Collectors.toList());
+        System.out.println("OP = " + orderProducts);
         model.addAttribute("orderProducts", orderProducts);
 
         List<ReceivingProduct> receivingProducts = receivingProductService.getReceivingProductsByReceiving(receiving);
