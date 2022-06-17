@@ -27,4 +27,11 @@ Java, Spring, Hibernate, PostgreSQL, Bootstrap, Thymeleaf
 ## Бачення системи / Vision of the system
 
 ### ER-діаграма БД у вигляді нотації MS Access / ER-diagram of DB in the form of MS Access notation
-![schema](https://github.com/GrEFeRFeeD/OOP-CW/blob/main/img/schema2_1_5.PNG) 
+![schema](https://github.com/GrEFeRFeeD/OOP-CW/blob/main/img/schema2_2_0.PNG) 
+
+### Діаграма прецедентів / User case diagram
+![usercase](https://github.com/GrEFeRFeeD/OOP-CW/blob/main/img/usercasediag_1.png)
+
+### Концептуальна діаграма класів / Conceptual class diagram
+![classdiagram](https://github.com/GrEFeRFeeD/OOP-CW/blob/main/img/conceptualdiag_1.png?raw=true)
+
