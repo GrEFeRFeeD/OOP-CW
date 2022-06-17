@@ -4,7 +4,6 @@ import oop.CourseWork.model.check_productBase.CheckProductBase;
 import oop.CourseWork.model.check_productBase.CheckProductBaseRepository;
 import oop.CourseWork.model.employee.Employee;
 import oop.CourseWork.model.employee.EmployeeRepository;
-import oop.CourseWork.model.order.Order;
 import oop.CourseWork.model.productLog.ProductLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -18,10 +17,10 @@ import java.util.List;
 @Service
 public class CheckService {
 
-    private CheckRepository checkRepository;
-    private EmployeeRepository employeeRepository;
-    private CheckProductBaseRepository checkProductBaseRepository;
-    private ProductLogService productLogService;
+    private final CheckRepository checkRepository;
+    private final EmployeeRepository employeeRepository;
+    private final CheckProductBaseRepository checkProductBaseRepository;
+    private final ProductLogService productLogService;
 
     @Autowired
     public CheckService(CheckRepository checkRepository, EmployeeRepository employeeRepository, CheckProductBaseRepository checkProductBaseRepository, ProductLogService productLogService) {

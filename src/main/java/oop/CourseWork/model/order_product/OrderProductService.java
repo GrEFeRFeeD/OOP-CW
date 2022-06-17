@@ -11,8 +11,8 @@ import java.util.Optional;
 @Service
 public class OrderProductService {
 
-    private OrderProductRepository orderProductRepository;
-    private OrderRepository orderRepository;
+    private final OrderProductRepository orderProductRepository;
+    private final OrderRepository orderRepository;
 
     @Autowired
     public OrderProductService(OrderProductRepository orderProductRepository, OrderRepository orderRepository) {
@@ -26,7 +26,7 @@ public class OrderProductService {
 
     public List<OrderProduct> getOrderProductsByOrder(Long orderId) {
         Optional<Order> order = orderRepository.findById(orderId);
-        return order.isPresent()?orderProductRepository.findByOrderObj(order.get()):null;
+        return order.map(orderProductRepository::findByOrderObj).orElse(null);
     }
     public List<OrderProduct> getAllOrderProducts() {
         return orderProductRepository.findAll();

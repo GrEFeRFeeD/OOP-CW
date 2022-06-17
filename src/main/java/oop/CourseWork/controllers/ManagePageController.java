@@ -23,10 +23,10 @@ import java.util.stream.Collectors;
 @Controller
 public class ManagePageController {
 
-    private OrderService orderService;
-    private ProviderService providerService;
-    private ReceivingService receivingService;
-    private EmployeeService employeeService;
+    private final OrderService orderService;
+    private final ProviderService providerService;
+    private final ReceivingService receivingService;
+    private final EmployeeService employeeService;
 
     @Autowired
     public ManagePageController(OrderService orderService, ProviderService providerService, ReceivingService receivingService, EmployeeService employeeService) {

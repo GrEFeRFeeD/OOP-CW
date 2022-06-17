@@ -5,12 +5,10 @@ import oop.CourseWork.model.order.Order;
 import oop.CourseWork.model.order.OrderService;
 import oop.CourseWork.model.order_product.OrderProduct;
 import oop.CourseWork.model.order_product.OrderProductService;
-import oop.CourseWork.model.product.Product;
 import oop.CourseWork.model.product.ProductService;
 import oop.CourseWork.model.provider.Provider;
 import oop.CourseWork.model.provider.ProviderService;
 import oop.CourseWork.model.receiving_product.ReceivingProduct;
-import oop.CourseWork.model.receiving_product.ReceivingProductKey;
 import oop.CourseWork.model.receiving_product.ReceivingProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -27,13 +25,13 @@ import java.util.stream.Collectors;
 @Controller
 public class ReceivingController {
 
-    private ReceivingService receivingService;
-    private ProviderService providerService;
-    private OrderService orderService;
-    private OrderProductService orderProductService;
-    private ProductService productService;
-    private ReceivingProductService receivingProductService;
-    private EmployeeService employeeService;
+    private final ReceivingService receivingService;
+    private final ProviderService providerService;
+    private final OrderService orderService;
+    private final OrderProductService orderProductService;
+    private final ProductService productService;
+    private final ReceivingProductService receivingProductService;
+    private final EmployeeService employeeService;
 
     @Autowired
     public ReceivingController(ReceivingService receivingService, ProviderService providerService, OrderService orderService, OrderProductService orderProductService, ProductService productService, ReceivingProductService receivingProductService, EmployeeService employeeService) {

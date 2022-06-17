@@ -5,7 +5,6 @@ import oop.CourseWork.model.check_productBase.CheckProductBaseService;
 import oop.CourseWork.model.employee.Employee;
 import oop.CourseWork.model.employee.EmployeeService;
 import oop.CourseWork.model.productBase.ProductBaseService;
-import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,10 +19,10 @@ import java.util.List;
 @Controller
 public class CheckController {
 
-    private CheckService checkService;
-    private CheckProductBaseService checkProductBaseService;
-    private EmployeeService employeeService;
-    private ProductBaseService productBaseService;
+    private final CheckService checkService;
+    private final CheckProductBaseService checkProductBaseService;
+    private final EmployeeService employeeService;
+    private final ProductBaseService productBaseService;
 
     @Autowired
     public CheckController(CheckService checkService, CheckProductBaseService checkProductBaseService, EmployeeService employeeService, ProductBaseService productBaseService) {

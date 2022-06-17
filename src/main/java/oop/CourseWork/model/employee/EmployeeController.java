@@ -4,7 +4,6 @@ import oop.CourseWork.model.productLog.ProductLog;
 import oop.CourseWork.model.productLog.ProductLogService;
 import oop.CourseWork.model.role.Role;
 import oop.CourseWork.model.role.RoleService;
-import oop.CourseWork.security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +16,10 @@ import java.util.List;
 @Controller
 public class EmployeeController {
 
-    private EmployeeService employeeService;
-    private EmployeeValidator employeeValidator;
-    private RoleService roleService;
-    private ProductLogService productLogService;
+    private final EmployeeService employeeService;
+    private final EmployeeValidator employeeValidator;
+    private final RoleService roleService;
+    private final ProductLogService productLogService;
 
     @Autowired
     public EmployeeController(EmployeeService employeeService, EmployeeValidator employeeValidator, RoleService roleService, ProductLogService productLogService) {

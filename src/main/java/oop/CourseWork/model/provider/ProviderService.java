@@ -10,8 +10,8 @@ import java.util.Optional;
 @Service
 public class ProviderService {
 
-    private ProviderRepository providerRepository;
-    private OrderService orderService;
+    private final ProviderRepository providerRepository;
+    private final OrderService orderService;
 
     @Autowired
     public ProviderService(ProviderRepository providerRepository, OrderService orderService) {
@@ -20,6 +20,7 @@ public class ProviderService {
     }
 
     public Provider getProviderById(Long id) { return providerRepository.getById(id); }
+
     public List<Provider> getAllProviders() {
         return providerRepository.findAll();
     }

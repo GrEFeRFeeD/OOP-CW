@@ -1,16 +1,10 @@
 package oop.CourseWork.model.receiving;
 
 import oop.CourseWork.model.employee.Employee;
-import oop.CourseWork.model.order.Order;
-import oop.CourseWork.model.order.OrderRepository;
 import oop.CourseWork.model.order.OrderService;
 import oop.CourseWork.model.order.OrderStatus;
-import oop.CourseWork.model.order_product.OrderProductRepository;
-import oop.CourseWork.model.productBase.ProductBaseRepository;
-import oop.CourseWork.model.productLog.ProductLogRepository;
 import oop.CourseWork.model.productLog.ProductLogService;
 import oop.CourseWork.model.receiving_product.ReceivingProduct;
-import oop.CourseWork.model.receiving_product.ReceivingProductRepository;
 import oop.CourseWork.model.receiving_product.ReceivingProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,10 +16,10 @@ import java.util.Map;
 @Service
 public class ReceivingService {
 
-    private ReceivingRepository receivingRepository;
-    private ProductLogService productLogService;
-    private OrderService orderService;
-    private ReceivingProductService receivingProductService;
+    private final ReceivingRepository receivingRepository;
+    private final ProductLogService productLogService;
+    private final OrderService orderService;
+    private final ReceivingProductService receivingProductService;
 
     @Autowired
     public ReceivingService(ReceivingRepository receivingRepository, ProductLogService productLogService, OrderService orderService, ReceivingProductService receivingProductService) {

@@ -1,17 +1,15 @@
 package oop.CourseWork.model.role;
 
 import oop.CourseWork.model.employee.Employee;
-import oop.CourseWork.model.order.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Access;
 import java.util.List;
 
 @Service
 public class RoleService {
 
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
     @Autowired
     public RoleService(RoleRepository roleRepository) {

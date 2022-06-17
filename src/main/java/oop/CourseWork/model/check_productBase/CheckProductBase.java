@@ -1,6 +1,5 @@
 package oop.CourseWork.model.check_productBase;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

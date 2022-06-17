@@ -14,10 +14,10 @@ import java.util.Optional;
 @Service
 public class CheckProductBaseService {
 
-    private CheckProductBaseRepository checkProductBaseRepository;
-    private CheckRepository checkRepository;
-    private ProductBaseRepository productBaseRepository;
-    private ProductBaseService productBaseService;
+    private final CheckProductBaseRepository checkProductBaseRepository;
+    private final CheckRepository checkRepository;
+    private final ProductBaseRepository productBaseRepository;
+    private final ProductBaseService productBaseService;
 
     @Autowired
     public CheckProductBaseService(CheckProductBaseRepository checkProductBaseRepository, CheckRepository checkRepository, ProductBaseRepository productBaseRepository, ProductBaseService productBaseService) {

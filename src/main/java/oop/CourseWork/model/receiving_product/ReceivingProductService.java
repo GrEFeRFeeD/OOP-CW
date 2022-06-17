@@ -8,18 +8,14 @@ import oop.CourseWork.model.receiving.ReceivingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
 
 @Service
 public class ReceivingProductService {
 
-    private ProductRepository productRepository;
-    private ReceivingRepository receivingRepository;
-    private ReceivingProductRepository receivingProductRepository;
+    private final ProductRepository productRepository;
+    private final ReceivingRepository receivingRepository;
+    private final ReceivingProductRepository receivingProductRepository;
 
     @Autowired
     public ReceivingProductService(ProductRepository productRepository, ReceivingRepository receivingRepository, ReceivingProductRepository receivingProductRepository) {
@@ -39,7 +35,7 @@ public class ReceivingProductService {
 
         List<ReceivingProduct> receivingProducts = receivingProductRepository.getReceivingProductsByReceiving(receiving);
         for (ReceivingProduct receivingProduct : receivingProducts) {
-            if (receivingProduct.getProduct().getId() == productId) {
+            if (Objects.equals(receivingProduct.getProduct().getId(), productId)) {
                 receivingProduct.setCount(receivingProduct.getCount() + 1);
                 addReceivingProduct(receivingProduct);
                 return;

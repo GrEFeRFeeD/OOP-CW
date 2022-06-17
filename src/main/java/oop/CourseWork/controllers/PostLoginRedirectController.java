@@ -15,8 +15,8 @@ import java.util.Set;
 @Controller
 public class PostLoginRedirectController {
 
-    private EmployeeService employeeService;
-    private RoleService roleService;
+    private final EmployeeService employeeService;
+    private final RoleService roleService;
 
     @Autowired
     public PostLoginRedirectController(EmployeeService employeeService, RoleService roleService) {

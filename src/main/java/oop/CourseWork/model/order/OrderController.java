@@ -1,9 +1,7 @@
 package oop.CourseWork.model.order;
 
 import oop.CourseWork.model.order_product.OrderProduct;
-import oop.CourseWork.model.order_product.OrderProductKey;
 import oop.CourseWork.model.order_product.OrderProductService;
-import oop.CourseWork.model.product.ProductService;
 import oop.CourseWork.model.provider.Provider;
 import oop.CourseWork.model.provider.ProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +14,15 @@ import java.util.*;
 @Controller
 public class OrderController {
 
-    private OrderService orderService;
-    private ProviderService providerService;
-    private OrderProductService orderProductService;
-    private ProductService productService;
+    private final OrderService orderService;
+    private final ProviderService providerService;
+    private final OrderProductService orderProductService;
 
     @Autowired
-    public OrderController(OrderService orderService, ProviderService providerService, OrderProductService orderProductService, ProductService productService) {
+    public OrderController(OrderService orderService, ProviderService providerService, OrderProductService orderProductService) {
         this.orderService = orderService;
         this.providerService = providerService;
         this.orderProductService = orderProductService;
-        this.productService = productService;
     }
 
     @GetMapping("/orders")

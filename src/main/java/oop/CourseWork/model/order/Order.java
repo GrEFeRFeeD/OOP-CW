@@ -3,12 +3,10 @@ package oop.CourseWork.model.order;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import oop.CourseWork.model.employee.Employee;
 import oop.CourseWork.model.file.File;
 import oop.CourseWork.model.order_product.OrderProduct;
 import oop.CourseWork.model.provider.Provider;
-import oop.CourseWork.model.provider.ProviderService;
 import oop.CourseWork.model.receiving.Receiving;
 
 import javax.persistence.*;

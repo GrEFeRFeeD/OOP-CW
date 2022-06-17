@@ -7,13 +7,9 @@ import oop.CourseWork.model.employee.Employee;
 import oop.CourseWork.model.order.Order;
 import oop.CourseWork.model.order_product.OrderProduct;
 import oop.CourseWork.model.order_product.OrderProductRepository;
-import oop.CourseWork.model.product.Product;
-import oop.CourseWork.model.product.ProductRepository;
 import oop.CourseWork.model.productBase.ProductBase;
-import oop.CourseWork.model.productBase.ProductBaseRepository;
 import oop.CourseWork.model.productBase.ProductBaseService;
 import oop.CourseWork.model.receiving.Receiving;
-import oop.CourseWork.model.receiving.ReceivingRepository;
 import oop.CourseWork.model.receiving_product.ReceivingProduct;
 import oop.CourseWork.model.receiving_product.ReceivingProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +21,11 @@ import java.util.List;
 @Service
 public class ProductLogService {
 
-    private ProductLogRepository productLogRepository;
-    private ReceivingProductRepository receivingProductRepository;
-    private CheckProductBaseRepository checkProductBaseRepository;
-    private ProductBaseService productBaseService;
-    private OrderProductRepository orderProductRepository;
+    private final ProductLogRepository productLogRepository;
+    private final ReceivingProductRepository receivingProductRepository;
+    private final CheckProductBaseRepository checkProductBaseRepository;
+    private final ProductBaseService productBaseService;
+    private final OrderProductRepository orderProductRepository;
 
     @Autowired
     public ProductLogService(ProductLogRepository productLogRepository, ReceivingProductRepository receivingProductRepository, CheckProductBaseRepository checkProductBaseRepository, ProductBaseService productBaseService, OrderProductRepository orderProductRepository) {

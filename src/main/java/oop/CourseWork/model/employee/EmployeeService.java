@@ -4,12 +4,10 @@ import oop.CourseWork.model.check.CheckService;
 import oop.CourseWork.model.order.OrderService;
 import oop.CourseWork.model.productLog.ProductLogService;
 import oop.CourseWork.model.receiving.ReceivingService;
-import oop.CourseWork.model.role.RoleRepository;
 import oop.CourseWork.model.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +16,13 @@ import java.util.List;
 @Service
 public class EmployeeService{
 
-    private EmployeeRepository employeeRepository;
-	private PasswordEncoder passwordEncoder;
-    private OrderService orderService;
-    private ReceivingService receivingService;
-    private RoleService roleService;
-    private ProductLogService productLogService;
-    private CheckService checkService;
+    private final EmployeeRepository employeeRepository;
+	private final PasswordEncoder passwordEncoder;
+    private final OrderService orderService;
+    private final ReceivingService receivingService;
+    private final RoleService roleService;
+    private final ProductLogService productLogService;
+    private final CheckService checkService;
 
     @Autowired
     public EmployeeService(EmployeeRepository employeeRepository, PasswordEncoder passwordEncoder, OrderService orderService, ReceivingService receivingService, RoleService roleService, ProductLogService productLogService, CheckService checkService) {

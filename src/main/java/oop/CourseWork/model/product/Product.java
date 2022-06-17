@@ -3,8 +3,6 @@ package oop.CourseWork.model.product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import oop.CourseWork.model.order.Order;
 import oop.CourseWork.model.order_product.OrderProduct;
 import oop.CourseWork.model.productBase.ProductBase;
 import oop.CourseWork.model.productLog.ProductLog;

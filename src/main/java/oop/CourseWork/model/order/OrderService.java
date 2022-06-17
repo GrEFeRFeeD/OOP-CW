@@ -14,29 +14,25 @@ import oop.CourseWork.model.receiving.Receiving;
 import oop.CourseWork.model.receiving.ReceivingRepository;
 import oop.CourseWork.model.receiving_product.ReceivingProduct;
 import oop.CourseWork.model.receiving_product.ReceivingProductRepository;
-import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Service
 public class OrderService {
 
-    private OrderRepository orderRepository;
-    private ProviderRepository providerRepository;
-    private EmployeeRepository employeeRepository;
-    private ProductRepository productRepository;
-    private OrderProductRepository orderProductRepository;
-    private ReceivingRepository receivingRepository;
-    private ReceivingProductRepository receivingProductRepository;
-    private ProductLogService productLogService;
+    private final OrderRepository orderRepository;
+    private final ProviderRepository providerRepository;
+    private final EmployeeRepository employeeRepository;
+    private final ProductRepository productRepository;
+    private final OrderProductRepository orderProductRepository;
+    private final ReceivingRepository receivingRepository;
+    private final ReceivingProductRepository receivingProductRepository;
+    private final ProductLogService productLogService;
 
     @Autowired
     public OrderService(OrderRepository orderRepository, ProviderRepository providerRepository, EmployeeRepository employeeRepository, ProductRepository productRepository, OrderProductRepository orderProductRepository, ReceivingRepository receivingRepository, ReceivingProductRepository receivingProductRepository, ProductLogService productLogService) {
