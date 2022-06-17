@@ -29,7 +29,7 @@ Java, Spring, Hibernate, PostgreSQL, Bootstrap, Thymeleaf
 ### ER-діаграма БД у вигляді нотації MS Access / ER-diagram of DB in the form of MS Access notation
 ![schema](https://github.com/GrEFeRFeeD/OOP-CW/blob/main/img/schema2_2_0.PNG) 
 
-### Діаграма прецедентів / User case diagram
+### Діаграма прецедентів / Use case diagram
 ![usercase](https://github.com/GrEFeRFeeD/OOP-CW/blob/main/img/usercasediag_1.png)
 
 ### Концептуальна діаграма класів / Conceptual class diagram
