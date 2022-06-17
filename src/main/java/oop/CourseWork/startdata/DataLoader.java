@@ -127,11 +127,11 @@ public class DataLoader implements ApplicationRunner {
         Receiving r1 = new Receiving(null, new Date(System.currentTimeMillis()), ReceivingStatus.OPEN, o1, null, new HashSet<>());
         o1.addReceiving(r1);
 
-        Check c1 = new Check(null, new Date(System.currentTimeMillis()), CheckStatus.CLOSED, e2, new HashSet<>());
-        e2.addCheck(c1);
+        //Check c1 = new Check(null, new Date(System.currentTimeMillis()), CheckStatus.CLOSED, e2, new HashSet<>());
+        //e2.addCheck(c1);
 
-        Check c2 = new Check(null, new Date(System.currentTimeMillis() + 100000), CheckStatus.OPEN, e2, new HashSet<>());
-        e2.addCheck(c2);
+        //Check c2 = new Check(null, new Date(System.currentTimeMillis() + 100000), CheckStatus.OPEN, e2, new HashSet<>());
+        //e2.addCheck(c2);
 
         ProductBase pb1 = new ProductBase(null, 43, pt1.getPrice(), pt1.getPrice()*(shopConfig.getMargin() + 1), pt1, new HashSet<>());
         pt1.setProductBase(pb1);
@@ -144,7 +144,7 @@ public class DataLoader implements ApplicationRunner {
         ProductBase pb5 = new ProductBase(null, 10, pt5.getPrice(), pt5.getPrice()*(shopConfig.getMargin() + 1), pt5, new HashSet<>());
         pt5.setProductBase(pb5);
 
-        CheckProductBase cpb11 = new CheckProductBase(new CheckProductBaseKey(), c1, pb1, 4, pb1.getSellingPrice());
+        /*CheckProductBase cpb11 = new CheckProductBase(new CheckProductBaseKey(), c1, pb1, 4, pb1.getSellingPrice());
         c1.addCheckBody(cpb11);
         pb1.addProductBaseBody(cpb11);
         CheckProductBase cpb12 = new CheckProductBase(new CheckProductBaseKey(), c1, pb3, 3, pb3.getSellingPrice());
@@ -158,9 +158,9 @@ public class DataLoader implements ApplicationRunner {
         pb2.addProductBaseBody(cpb21);
         CheckProductBase cpb22 = new CheckProductBase(new CheckProductBaseKey(), c2, pb4, 1, pb4.getSellingPrice());
         c2.addCheckBody(cpb22);
-        pb4.addProductBaseBody(cpb22);
+        pb4.addProductBaseBody(cpb22);*/
 
-        ProductLog pl1 = new ProductLog(null, ProductLogType.RECEIVING, pb1.getCount(), pb1.getPurchasePrice(), new Date(System.currentTimeMillis()), pb1.getProduct(), e3);
+        /*ProductLog pl1 = new ProductLog(null, ProductLogType.RECEIVING, pb1.getCount(), pb1.getPurchasePrice(), new Date(System.currentTimeMillis()), pb1.getProduct(), e3);
         pb1.getProduct().addProductLog(pl1);
         e3.addProductLog(pl1);
         ProductLog pl2 = new ProductLog(null, ProductLogType.CHECKINGOUT, 10, pb1.getSellingPrice(), new Date(System.currentTimeMillis() + 1000000), pb1.getProduct(), e2);
@@ -168,7 +168,7 @@ public class DataLoader implements ApplicationRunner {
         e2.addProductLog(pl2);
         ProductLog pl3 = new ProductLog(null, ProductLogType.RETURNING, 5, pb1.getPurchasePrice(), new Date(System.currentTimeMillis()), pb1.getProduct(), e1);
         pb1.getProduct().addProductLog(pl3);
-        e1.addProductLog(pl3);
+        e1.addProductLog(pl3);*/
 
         productRepository.save(pt1);
         productRepository.save(pt2);
@@ -200,16 +200,16 @@ public class DataLoader implements ApplicationRunner {
         orderProductRepository.save(op21);
         orderProductRepository.save(op22);
 
-        receivingRepository.save(r1);
+        //receivingRepository.save(r1);
 
-        checkRepository.save(c1);
-        checkRepository.save(c2);
+        //checkRepository.save(c1);
+        //checkRepository.save(c2);
 
-        checkProductBaseRepository.save(cpb11);
+        /*checkProductBaseRepository.save(cpb11);
         checkProductBaseRepository.save(cpb12);
         checkProductBaseRepository.save(cpb13);
         checkProductBaseRepository.save(cpb21);
-        checkProductBaseRepository.save(cpb22);
+        checkProductBaseRepository.save(cpb22);*/
 
         productBaseRepository.save(pb1);
         productBaseRepository.save(pb2);
@@ -217,9 +217,9 @@ public class DataLoader implements ApplicationRunner {
         productBaseRepository.save(pb4);
         productBaseRepository.save(pb5);
 
-        productLogRepository.save(pl1);
+        /*productLogRepository.save(pl1);
         productLogRepository.save(pl2);
-        productLogRepository.save(pl3);
+        productLogRepository.save(pl3);*/
 
         System.out.println(new Date(System.currentTimeMillis()) + " oop.CourseWork.startdata.DataLoader: Start data successfully loaded.");
     }
