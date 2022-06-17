@@ -18,15 +18,12 @@
                     <option selected>Усі товари</option>
                 </select>
             </div>
-
             <div class="col btn-group">
                 <button class="btn btn-secondary" onclick="window.open('/manage_page', '_self');">Назад</button>
             </div>
         </div>
     </nav>
-
     <hr class="m-auto" align="center" width="98%" >
-
     <main style="margin: 20px">
         <div style="overflow:auto; min-height: 600px; max-height: 600px">
             <table class="table" style="border-collapse: collapse;">
@@ -38,7 +35,6 @@
                         <td>Ціна продажу</td>
                     </tr>
                 </thead>
-
                 <tbody>
                     <tr th:each="pb : ${productBases}">
                         <td><span th:text="${pb.product.name}"/></td>
@@ -50,6 +46,5 @@
             </table>
         </div>
     </main>
-
 </body>
 </html>

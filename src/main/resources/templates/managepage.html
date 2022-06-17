@@ -12,7 +12,6 @@
 
 </head>
 <body>
-
     <main style="margin: 20px">
         <div class="row">
             <div class="col">
@@ -29,8 +28,6 @@
                         <button class="btn btn-info" onclick="window.open('/orders', '_self');">Перейти до списку замовлень</button>
                     </div>
                 </div>
-
-
                 <div style="overflow:auto; min-height: 275px; max-height: 275px; margin-top: 10px;">
                     <div class="text-center">Замовлення за останній тиждень</div>
                     <table id="orderTable" class="table">
@@ -60,7 +57,6 @@
                     <div class="col">
                         <button class="btn btn-lg btn-square btn-danger" onclick="if (confirm('Бажаєте завершити сессію?')) window.open('/logout', '_self')">X</button>
                     </div>
-
                 </div>
                 <div class="row d-grid gap-3">
                     <button class="btn btn-warning btn-lg" onclick="window.open('/checks', '_self');">Перейти до каси</button>
@@ -74,7 +70,6 @@
         <div class="row" style="margin-top: 10px">
             <div th:class="${isAdmin}?'col-6 d-grid':'col d-grid'">
                 <button class="btn btn-info" onclick="window.open('/receivings', '_self');">Перейти до отримань</button>
-
                 <div style="overflow:auto; min-height: 275px; max-height: 275px; margin-top: 10px;">
                     <div class="text-center">Отримання за останній тиждень</div>
                     <table id="receivingTable" class="table">
@@ -149,6 +144,5 @@
             </div>
         </div>
     </main>
-
 </body>
 </html>
